@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <VideoView
+        android:id="@+id/fragment_video_streaming_vv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_video_streaming_top_content_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="#c2777871" >
+
+        <TextView
+            android:id="@+id/fragment_video_streaming_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/fragment_video_streaming_icon_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/fragment_video_streaming_title_tv"
+            android:scaleType="centerCrop" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_video_streaming_bottom_content_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#c2777871" >
+
+        <ImageView
+            android:id="@+id/fragment_video_streaming_play_pause_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/play" />
+
+        <TextView
+            android:id="@+id/fragment_video_streaming_time_progress_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/fragment_video_streaming_play_pause_iv" />
+
+        <SeekBar
+            android:id="@+id/fragment_video_streaming_progress_sb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/fragment_video_streaming_full_time_tv"
+            android:layout_toRightOf="@+id/fragment_video_streaming_time_progress_tv"
+            android:background="@drawable/seekbar"
+            android:thumb="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/fragment_video_streaming_full_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/fragment_video_streaming_time_progress_tv"
+            android:layout_alignBottom="@+id/fragment_video_streaming_time_progress_tv"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/fragment_video_streaming_shadow_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#44999999"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/fragment_video_streaming_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_request_shadow_bg_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_video_streaming_pb"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Loading..."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#c4c4c4" />
+
+    <RelativeLayout
+        android:id="@+id/paypal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/ic_paypal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Full Access Unlimited Movies By Remove This Screen for $3.99/Year"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#212121"
+            android:textSize="@dimen/paypal_text_size" />
+
+        <Button
+            android:id="@+id/subscribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/paypal" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subscribe"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/visa" />
+    </RelativeLayout>
+
+</RelativeLayout>

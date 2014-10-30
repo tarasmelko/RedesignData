@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- popcorn -->
+    <style name="Theme.Popcorn" parent="android:Theme.Holo"></style>
+
+    <style name="Theme.Popcorn.NoActionBar" parent="Theme.Popcorn">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.Popcorn.Player" parent="Theme.Popcorn.NoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="video_player_overlay">@color/transparent_gray</item>
+    </style>
+
+    <style name="Theme.Popcorn.Classic" parent="Theme.Popcorn.NoActionBar"></style>
+
+    <!-- Settings -->
+
+    <style name="SettingsButton">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@drawable/popcorn_settings_selector</item>
+    </style>
+
+    <style name="SettingsCategory">
+        <item name="android:textColor">@color/p_drawer_item_selected</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SettingsItem">
+        <item name="android:background">@drawable/header_button_selector</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="SettingsItemTitle">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SettingsItemSummary">
+        <item name="android:textColor">#a8a8a8</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Widget -->
+
+    <style name="Widget" parent="android:Widget"></style>
+
+    <style name="Widget.RatingBar">
+        <item name="android:isIndicator">true</item>
+        <item name="android:maxHeight">15dp</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="android:progressDrawable">@drawable/popcorn_rating_bar</item>
+    </style>
+
+    <style name="HeaderButton">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@drawable/header_button_selector</item>
+    </style>
+
+    <style name="WatchButton">
+        <item name="android:background">@drawable/popcorn_watch_selector</item>
+        <item name="android:shadowColor">@color/classic_text_shadow</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:textColor">@color/classic_watch_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PopcornSpinner">
+        <item name="android:background">@drawable/popcorn_spinner</item>
+        <item name="android:minHeight">23dp</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="DrawerSwitch">
+        <item name="android:minHeight">26dp</item>
+        <item name="android:maxHeight">26dp</item>
+        <item name="android:textAppearance">@style/DrawerSwitchUnselected</item>
+        <item name="android:background">@drawable/drawer_switch_unselected_selector</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="DrawerSwitchSelected">
+        <item name="android:textColor">@color/classic_drawer_btn_text_selected</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DrawerSwitchUnselected">
+        <item name="android:textColor">@color/classic_drawer_btn_text_unselected</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="FavoritesToggleButton">
+        <item name="android:background">@drawable/popcorn_favorites_bkg</item>
+        <item name="android:textOff"></item>
+        <item name="android:textOn"></item>
+    </style>
+
+</resources>

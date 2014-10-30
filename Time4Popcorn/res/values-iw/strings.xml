@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Genres -->
+
+    <string name="popular">פופולרי</string>
+    <string name="action">פעולה</string>
+    <string name="adventure">הרפתקאות</string>
+    <string name="animation">הנפשה</string>
+    <string name="biography">ביוגרפיה</string>
+    <string name="comedy">קומדיה</string>
+    <string name="crime">פשע</string>
+    <string name="documentary">תיעודי</string>
+    <string name="drama">דרמה</string>
+    <string name="family">משפחה</string>
+    <string name="fantasy">פנטזיה</string>
+    <string name="film_noir">סרט אפל</string>
+    <string name="history">היסטוריה</string>
+    <string name="horror">אימה</string>
+    <string name="music">מוזיקה</string>
+    <string name="musical">מוזיקלי	</string>
+    <string name="mystery">מסתורין</string>
+    <string name="romance">רומנטיקה</string>
+    <string name="sci_fi">מדע בדיוני</string>
+    <string name="short_">סרט קצר</string>
+    <string name="sport">ספורט</string>
+    <string name="thriller">מותחן</string>
+    <string name="war">מלחמה</string>
+    <string name="western">מערבון</string>
+
+    <!-- Theme -->
+
+    <string name="theme_classic">Classic</string>
+
+    <!-- popcorn -->
+
+    <string name="movies">סרטים</string>
+    <string name="tv_shows">סדרות</string>
+    <string name="exit_msg">Click \"Back\" again to exit</string>
+    <string name="no_connection">No connection</string>
+    <string name="retry">Retry</string>
+    <string name="data_not_available">Data not available</string>
+    <string name="watch_it_now">צפייה</string>
+    <string name="actors">Staring</string>
+    <string name="trailer">טריילרים</string>
+    <string name="seasons">Seasons</string>
+    <string name="torrents">Torrents</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="episodes">Episodes</string>
+    <string name="size">Size</string>
+    <string name="seeds">Seeds</string>
+    <string name="peers">Peers</string>
+    <string name="without_subtitle">Without subtitle</string>
+    <string name="error_metadata">Error data loading. Try again</string>
+    <string name="season">עונה</string>
+    <string name="episode">Episode</string>
+    <string name="search">חיפוש</string>
+    <string name="please_wait">Please wait</string>
+    <string name="later">Later</string>
+    <string name="update">Update</string>
+    <string name="available_new_version">Available new version</string>
+    <string name="update_now">Update now!</string>
+    <string name="googlecast_error_title">Google Cast error</string>
+    <string name="googlecast_error_message">Google Cast does not support this media type</string>
+    <string name="confirm">Confirm</string>
+    <string name="no_write_access">Cannot write to this folder. No write access</string>
+    <string name="no_free_space">Video file too big. No available free space on disk</string>
+    <string name="settings">הגדרות</string>
+    <string name="interface_">Interface</string>
+    <string name="downloads">Downloads</string>
+    <string name="language">שפה</string>
+    <string name="theme">Theme</string>
+    <string name="vpn_connection">VPN Connection</string>
+    <string name="sponsored_by">Sponsored By:</string>
+    <string name="cache_folder">Cache folder</string>
+    <string name="clear_cache_folder">Clear cache folder</string>
+    <string name="player">Player</string>
+    <string name="default_subtitle">Default subtitle</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="remove_from_favorites">Remove from Favorites</string>
+    <string name="favorites_is_empty">Favorites is empty</string>
+
+</resources>

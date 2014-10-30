@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dp.ws.popcorntime"
+    android:installLocation="auto"
+    android:versionCode="15"
+    android:versionName="2.3.2" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <permission
+        android:name="dp.ws.popcorntime.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="dp.ws.popcorntime.permission.C2D_MESSAGE" />
+
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="true" >
+    </uses-feature>
+
+    <application
+        android:name="dp.ws.popcorntime.PopcornApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_launcher" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver
+            android:name="dp.ws.popcorntime.utils.GCMReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="dp.ws.popcorntime" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="dp.ws.popcorntime.ui.SplashActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.LoginActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+
+        <service android:name="dp.ws.popcorntime.utils.GCMService" />
+
+        <activity
+            android:name="dp.ws.popcorntime.ui.MainActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.VideoStreamActivity"
+           android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.VideoActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.SettingsActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.FolderChooserActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.TrailerActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Popcorn.NoActionBar" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.VLCPlayerActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Popcorn.Player" >
+        </activity>
+
+        <service android:name="org.videolan.vlc.audio.AudioService" />
+        <service android:name="eu.sesma.castania.castserver.CastServerService" />
+
+        <provider
+            android:name="dp.ws.popcorntime.database.DBProvider"
+            android:authorities="dp.ws.popcorntime"
+            android:exported="false"
+            android:label="@string/app_name" />
+
+        <service
+            android:name="com.paypal.android.sdk.payments.PayPalService"
+            android:exported="false" />
+
+        <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PayPalFuturePaymentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentConsentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentInfoActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PayPalProfileSharingActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.ProfileSharingConsentActivity" />
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name="io.card.payment.DataEntryActivity" />
+    </application>
+
+</manifest>

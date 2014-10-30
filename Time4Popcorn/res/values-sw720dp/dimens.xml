@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="item_height">500dp</dimen>
+    <dimen name="image_height">450dp</dimen>
+    <dimen name="icon_width">450dp</dimen>
+    <dimen name="login_margin">150dp</dimen>
+    <dimen name="or_margin">50dp</dimen>
+    <dimen name="text_login_margin">100dp</dimen>
+    <dimen name="paypal_text_size">60sp</dimen>
+
+</resources>
