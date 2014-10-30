@@ -5,7 +5,7 @@
     <string name="vpn_sponsor_kebrum" translatable="false"><u>iMovies</u></string>
 
     <!-- Genres -->
-    <string name="top_videos"> TOP MOVIES</string>
+    <string name="top_videos">Top Movies</string>
     <string name="popular">Popular</string>
     <string name="action">Action</string>
     <string name="adventure">Adventure</string>
@@ -31,6 +31,8 @@
     <string name="war">War</string>
     <string name="western">Western</string>
     <!--  -->
+
+    <string name="genre_top" translatable="false"></string>
     <string name="genre_popular" translatable="false"></string>
     <string name="genre_action" translatable="false">action</string>
     <string name="genre_adventure" translatable="false">adventure</string>
@@ -57,7 +59,6 @@
     <string name="genre_western" translatable="false">western</string>
 
     <string-array name="genres">
-        <item>@string/top_videos</item>
         <item>@string/popular</item>
         <item>@string/action</item>
         <item>@string/adventure</item>
@@ -83,6 +84,26 @@
         <item>@string/war</item>
         <item>@string/western</item>
     </string-array>
+    <string-array name="flag_names">
+        <item>USA</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>India</item>
+        <item>China</item>
+        <item>Germany</item>
+        <item>Spain</item>
+    </string-array>
+
+    <array name="icons_flags">
+        <item>@drawable/usa</item>
+        <item>@drawable/france</item>
+        <item>@drawable/italy</item>
+        <item>@drawable/india</item>
+        <item>@drawable/china</item>
+        <item>@drawable/germany</item>
+        <item>@drawable/spain</item>
+    </array>
+
     <string-array name="request_genres">
         <item>@string/genre_popular</item>
         <item>@string/genre_action</item>

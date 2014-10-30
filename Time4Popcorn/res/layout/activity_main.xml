@@ -45,6 +45,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/main_drawer_topvideos_btn"
+                style="@style/DrawerSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/top_videos" />
         </LinearLayout>
 
         <ListView

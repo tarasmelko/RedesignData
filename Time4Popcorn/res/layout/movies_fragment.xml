@@ -1,25 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <GridView
+
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
         android:id="@+id/fragment_movie_gv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="12dp"
-        android:gravity="start"
-        android:horizontalSpacing="17dp"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="6"
-        android:overScrollMode="never"
-        android:rotationY="180"
-        android:splitMotionEvents="false"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="3dp" >
-    </GridView>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:verticalSpacing="5dp" >
+    </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
     <ImageView
         android:id="@+id/main_shadow_iv"
