@@ -2,8 +2,8 @@ package dp.ws.popcorntime.controller;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,16 +11,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import dp.ws.popcorntime.R;
 import dp.ws.popcorntime.model.videodata.Movie;
 import dp.ws.popcorntime.ui.DescriptionFragment;
 import dp.ws.popcorntime.ui.MainActivity;
 import dp.ws.popcorntime.utils.Constants;
-import dp.ws.popcorntime.utils.RoundDisplayer;
+import dp.ws.popcorntime.utils.LoadImage;
 
 public class MoviesGridAdapter extends BaseAdapter {
 
@@ -28,17 +24,15 @@ public class MoviesGridAdapter extends BaseAdapter {
 
 	private List<Movie> mData;
 
-	private LayoutInflater inflater;
-	private DisplayImageOptions options;
+	private LayoutInflater mInflater;
+	private static final String NO_INFORMATION = "No information";
+	private LoadImage mLoader;
 
-	public MoviesGridAdapter(Context context, List<Movie> in) {
-		inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public MoviesGridAdapter(Activity context, List<Movie> in) {
+		mInflater = LayoutInflater.from(context);
 		mContext = context;
 		mData = in;
-		options = new DisplayImageOptions.Builder().cacheInMemory(true)
-				.cacheOnDisk(true).displayer(new RoundDisplayer(6))
-				.showImageOnLoading(android.R.color.transparent).build();
+		mLoader = new LoadImage(mContext);
 	}
 
 	@Override
@@ -64,26 +58,29 @@ public class MoviesGridAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		VideoHolder holder;
+
+		final ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.item_grid_video, parent,
-					false);
-			holder = new VideoHolder();
-			holder.poster = (ImageView) convertView
-					.findViewById(R.id.video_poster);
-			holder.name = (TextView) convertView.findViewById(R.id.video_name);
-			holder.year = (TextView) convertView.findViewById(R.id.video_year);
+			holder = new ViewHolder();
+			convertView = mInflater.inflate(R.layout.item_movie, parent, false);
+
+			holder.name = (TextView) convertView
+					.findViewById(R.id.item_movie_name_tv);
+			holder.image = (ImageView) convertView
+					.findViewById(R.id.item_movie_image_iv);
+
 			convertView.setTag(holder);
 		} else {
-			holder = (VideoHolder) convertView.getTag();
+			holder = (ViewHolder) convertView.getTag();
+
 		}
 
 		final Movie item = (Movie) mData.get(position);
-		ImageLoader.getInstance()
-				.displayImage(Constants.ICON_PREFIX + item.getImage(),
-						holder.poster, options);
-		holder.name.setText(Html.fromHtml("<b>" + item.getName() + "</b>"));
-		holder.year.setText("");
+
+		mLoader.loadImageRoundedCache(Constants.ICON_PREFIX + item.getImage(),
+				holder.image, 10);
+		holder.name.setText(item.getName() != null ? item.getName()
+				: NO_INFORMATION);
 
 		convertView.setOnClickListener(new OnClickListener() {
 

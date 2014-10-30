@@ -3,8 +3,8 @@ package dp.ws.popcorntime.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,9 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 
 import dp.ws.popcorntime.R;
 import dp.ws.popcorntime.controller.MoviesGridAdapter;
@@ -22,7 +25,7 @@ import dp.ws.popcorntime.utils.WebRequest;
 
 public class MoviesFragment extends Fragment {
 
-	GridView moviesGrid;
+	PullToRefreshGridView moviesGrid;
 	List<Movie> mData;
 	MoviesGridAdapter adapter;
 	View mView;
@@ -32,9 +35,18 @@ public class MoviesFragment extends Fragment {
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.movies_fragment, container, false);
 
-		moviesGrid = (GridView) mView.findViewById(R.id.fragment_movie_gv);
+		moviesGrid = (PullToRefreshGridView) mView
+				.findViewById(R.id.fragment_movie_gv);
 
 		mData = new ArrayList<Movie>();
+		moviesGrid.setMode(PullToRefreshBase.Mode.BOTH);
+		moviesGrid.setOnRefreshListener(new OnRefreshListener<GridView>() {
+
+			@Override
+			public void onRefresh(PullToRefreshBase<GridView> refreshView) {
+				getDataAgain();
+			}
+		});
 
 		getDataAgain();
 		return mView;
@@ -59,6 +71,7 @@ public class MoviesFragment extends Fragment {
 				new com.android.volley.Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
+						moviesGrid.onRefreshComplete();
 						stopVideoProgress();
 						if (response != null) {
 							Preference.saveUserFilms(response);
@@ -76,6 +89,7 @@ public class MoviesFragment extends Fragment {
 				}, new com.android.volley.Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
+						moviesGrid.onRefreshComplete();
 						stopVideoProgress();
 					}
 				});

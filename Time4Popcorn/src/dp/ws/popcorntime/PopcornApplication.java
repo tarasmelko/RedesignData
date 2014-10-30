@@ -8,12 +8,14 @@ import org.acra.annotation.ReportsCrashes;
 import org.videolan.vlc.VLCApplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.lazydroid.autoupdateapk.AutoUpdateApk;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import dp.ws.popcorntime.subtitles.Subtitles;
 import dp.ws.popcorntime.utils.LanguageUtil;
@@ -30,15 +32,12 @@ public class PopcornApplication extends VLCApplication {
 	private static PopcornApplication mApp;
 	private SharedPreferences mPrefs;
 	private Locale mLocale;
-	private AutoUpdateApk aua;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		ACRA.init(PopcornApplication.this);
 		mApp = this;
-
-		aua = new AutoUpdateApk(getApplicationContext());
 
 		mPrefs = getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES,
 				Activity.MODE_PRIVATE);
@@ -50,6 +49,8 @@ public class PopcornApplication extends VLCApplication {
 				getApplicationContext()).build();
 		ImageLoader.getInstance().init(config);
 
+		// initImageLoader(this);
+
 		StorageHelper.getInstance().init(PopcornApplication.this);
 
 		addShortcut();
@@ -57,6 +58,16 @@ public class PopcornApplication extends VLCApplication {
 
 	public static PopcornApplication instance() {
 		return mApp;
+	}
+
+	public static void initImageLoader(Context context) {
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context).threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				.writeDebugLogs().build();
+		ImageLoader.getInstance().init(config);
 	}
 
 	public Locale getAppLocale() {

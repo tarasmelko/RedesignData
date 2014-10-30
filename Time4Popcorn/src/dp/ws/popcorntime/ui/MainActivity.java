@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import dp.ws.popcorntime.R;
+import dp.ws.popcorntime.controller.FlagsAdapter;
 import dp.ws.popcorntime.controller.GenreAdapter;
 import dp.ws.popcorntime.controller.URLLoader;
 import dp.ws.popcorntime.model.LoaderResponse;
@@ -63,13 +64,15 @@ public class MainActivity extends PopcornLoadActivity implements
 	private RelativeLayout mDrawer;
 	private Button moviesDrawerBtn;
 	private Button tvShowsDrawerBtn;
+	private Button topMoviesDrawerBtn;
 	private EditText searchView;
 	private ListView mGenreList;
 	private GenreAdapter mGenreAdapter;
+	private FlagsAdapter mFlagsAdapter;
 
 	private GridVideoFragment videoFragment;
 	private GridFavoritesFragment favoritesFragment = new GridFavoritesFragment();
-
+	private View header;
 	private boolean doubleBackToExitPressedOnce = false;
 	private String exitMsg;
 
@@ -94,7 +97,7 @@ public class MainActivity extends PopcornLoadActivity implements
 		setPopcornSplashView(R.layout.view_splash);
 
 		// Header
-		View header = setPopcornHeaderView(R.layout.header_main);
+		header = setPopcornHeaderView(R.layout.header_main);
 		header.findViewById(R.id.popcorn_action_menu).setOnClickListener(
 				MainActivity.this);
 		header.findViewById(R.id.popcorn_action_overflow).setOnClickListener(
@@ -122,6 +125,11 @@ public class MainActivity extends PopcornLoadActivity implements
 				.findViewById(R.id.main_drawer_tvshows_btn);
 		tvShowsDrawerBtn.setOnClickListener(MainActivity.this);
 
+		topMoviesDrawerBtn = (Button) mDrawer
+				.findViewById(R.id.main_drawer_topvideos_btn);
+		topMoviesDrawerBtn.setOnClickListener(MainActivity.this);
+
+		mFlagsAdapter = new FlagsAdapter(MainActivity.this);
 		mGenreAdapter = new GenreAdapter(MainActivity.this);
 		mGenreList = (ListView) mDrawer.findViewById(R.id.main_drawer_list);
 		mGenreList.setAdapter(mGenreAdapter);
@@ -129,13 +137,14 @@ public class MainActivity extends PopcornLoadActivity implements
 
 		searchView = (EditText) mDrawer.findViewById(R.id.main_drawer_search);
 		searchView.setOnEditorActionListener(searchListener);
+
+		header.findViewById(R.id.flags_content).setVisibility(View.GONE);
+
 		updateSearchCursor(getResources().getConfiguration());
 
 		updateLocaleText();
 
-		firstStart();
-
-		replaceFragment(new MoviesFragment());
+		onMoviesClick();
 
 		if (Preference.getFTime() == 0) {
 			Preference.saveFTime(System.currentTimeMillis());
@@ -234,9 +243,15 @@ public class MainActivity extends PopcornLoadActivity implements
 		switch (v.getId()) {
 		case R.id.main_drawer_movies_btn:
 			onMoviesClick();
+			header.findViewById(R.id.flags_content).setVisibility(View.GONE);
 			break;
 		case R.id.main_drawer_tvshows_btn:
 			onTVShowsClick();
+			header.findViewById(R.id.flags_content).setVisibility(View.GONE);
+			break;
+		case R.id.main_drawer_topvideos_btn:
+			onTopClick();
+			header.findViewById(R.id.flags_content).setVisibility(View.VISIBLE);
 			break;
 		case R.id.popcorn_action_menu:
 			onMenuClick();
@@ -247,43 +262,65 @@ public class MainActivity extends PopcornLoadActivity implements
 			}
 			onOverflowPressed(v);
 			break;
-		default:
-			break;
 		}
-	}
-
-	private void firstStart() {
-		if (currentVideoData != null) {
-			currentVideoData.setPage(1);
-		}
-		searchView.setText(moviesData.getKeywords());
-		mGenreAdapter.replaceData(moviesData);
-		mGenreList.setItemChecked(moviesData.getGenrePosition(), true);
-		mGenreList.clearFocus();
-		mGenreList.post(new Runnable() {
-
-			@Override
-			public void run() {
-				mGenreList.setSelection(moviesData.getGenrePosition());
-			}
-		});
-		searchView.clearFocus();
 	}
 
 	private void onMoviesClick() {
-		if (currentVideoData != moviesData) {
+		if (currentVideoData == null || currentVideoData != moviesData) {
 			moviesBtnSelect();
 			tvShowsBtnUnselect();
+			topBtnUnselect();
+			mGenreList.setAdapter(mGenreAdapter);
+			mGenreList.setOnItemClickListener(genreListener);
 			selectVideoData(moviesData);
 		}
 	}
 
 	private void onTVShowsClick() {
-		if (currentVideoData != tvShowsData) {
+		if (currentVideoData == null || currentVideoData != tvShowsData) {
 			moviesBtnUnselect();
+			topBtnUnselect();
+
 			tvShowsBtnSelect();
+			mGenreList.setAdapter(mGenreAdapter);
+			mGenreList.setOnItemClickListener(genreListener);
 			selectVideoData(tvShowsData);
 		}
+	}
+
+	private void onTopClick() {
+		if (currentVideoData != null) {
+			moviesBtnUnselect();
+			tvShowsBtnUnselect();
+			topBtnSelect();
+			mGenreList.setAdapter(mFlagsAdapter);
+			mGenreList.setOnItemClickListener(flagsListener);
+			moviesDrawerBtn.setOnClickListener(MainActivity.this);
+			tvShowsDrawerBtn.setOnClickListener(MainActivity.this);
+			mFlagsAdapter.notifyDataSetChanged();
+			replaceFragment(new MoviesFragment());
+			mGenreList.clearFocus();
+			searchView.clearFocus();
+			currentVideoData = null;
+		}
+	}
+
+	private void topBtnSelect() {
+		topMoviesDrawerBtn
+				.setBackgroundResource(R.drawable.drawer_switch_selected_selector);
+		topMoviesDrawerBtn.setTextAppearance(MainActivity.this,
+				R.style.DrawerSwitchSelected);
+		topMoviesDrawerBtn.setShadowLayer(1, 1, 1,
+				getResources().getColor(R.color.classic_text_shadow));
+	}
+
+	private void topBtnUnselect() {
+		topMoviesDrawerBtn
+				.setBackgroundResource(R.drawable.drawer_switch_unselected_selector);
+		topMoviesDrawerBtn.setTextAppearance(MainActivity.this,
+				R.style.DrawerSwitchUnselected);
+		topMoviesDrawerBtn.setShadowLayer(0, 0, 0,
+				getResources().getColor(android.R.color.transparent));
 	}
 
 	private void moviesBtnSelect() {
@@ -390,8 +427,6 @@ public class MainActivity extends PopcornLoadActivity implements
 			moviesData.setKeywords("");
 			moviesBtnSelect();
 			selectVideoData(moviesData);
-		} else if (position == 0) {
-			replaceFragment(new MoviesFragment());
 		} else {
 			searchView.setText("");
 			currentVideoData.setPage(1);
@@ -512,6 +547,25 @@ public class MainActivity extends PopcornLoadActivity implements
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			selecteGenre(position);
+		}
+	};
+
+	private OnItemClickListener flagsListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (position == 0) {
+				Toast.makeText(MainActivity.this, "USA is selected",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(
+						MainActivity.this,
+						getResources().getStringArray(R.array.flag_names)[position]
+								+ " is not provided", Toast.LENGTH_SHORT)
+						.show();
+
+			}
 		}
 	};
 
