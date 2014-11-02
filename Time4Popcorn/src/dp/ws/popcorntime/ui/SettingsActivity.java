@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,9 +27,11 @@ import dp.ws.popcorntime.ui.base.PlayerBaseActivity;
 import dp.ws.popcorntime.ui.base.PopcornBaseActivity;
 import dp.ws.popcorntime.ui.locale.LocaleDialogFragment;
 import dp.ws.popcorntime.utils.LanguageUtil;
+import dp.ws.popcorntime.utils.Preference;
 import dp.ws.popcorntime.utils.StorageHelper;
 
-public class SettingsActivity extends PopcornBaseActivity {
+public class SettingsActivity extends PopcornBaseActivity implements
+		OnClickListener {
 
 	private final int REQUEST_DIRECTORY = 3457;
 
@@ -44,8 +47,9 @@ public class SettingsActivity extends PopcornBaseActivity {
 
 	// hardware acceleration
 	private String[] accelerations;
-	private final int[] accelerationCode = new int[] { LibVLC.HW_ACCELERATION_AUTOMATIC, LibVLC.HW_ACCELERATION_DISABLED, LibVLC.HW_ACCELERATION_DECODING,
-			LibVLC.HW_ACCELERATION_FULL };
+	private final int[] accelerationCode = new int[] {
+			LibVLC.HW_ACCELERATION_AUTOMATIC, LibVLC.HW_ACCELERATION_DISABLED,
+			LibVLC.HW_ACCELERATION_DECODING, LibVLC.HW_ACCELERATION_FULL };
 	private HwAccelerationDialog accelerationDialog;
 
 	// subtitles
@@ -82,12 +86,14 @@ public class SettingsActivity extends PopcornBaseActivity {
 		super.onCreate(savedInstanceState);
 
 		mApplication = (PopcornApplication) getApplication();
-		preferences = getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+		preferences = getSharedPreferences(
+				PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 
 		// Header
 		getPopcornLogoView().setVisibility(View.GONE);
 		View header = setPopcornHeaderView(R.layout.header_settings);
-		header.findViewById(R.id.header_action_back).setOnClickListener(backListener);
+		header.findViewById(R.id.header_action_back).setOnClickListener(
+				backListener);
 		headerTitle = (TextView) header.findViewById(R.id.header_title);
 
 		// Content
@@ -96,47 +102,63 @@ public class SettingsActivity extends PopcornBaseActivity {
 		/*
 		 * INTERFACE
 		 */
-		interfaceTitle = (TextView) content.findViewById(R.id.settings_interface_title);
+		interfaceTitle = (TextView) content
+				.findViewById(R.id.settings_interface_title);
 
 		View language = content.findViewById(R.id.settings_language);
 		language.setOnClickListener(languageListener);
-		languageTitle = (TextView) language.findViewById(R.id.settings_language_title);
-		languageSummary = (TextView) language.findViewById(R.id.settings_language_summary);
+		languageTitle = (TextView) language
+				.findViewById(R.id.settings_language_title);
+		languageSummary = (TextView) language
+				.findViewById(R.id.settings_language_summary);
 
 		View theme = content.findViewById(R.id.settings_theme);
 		theme.setOnClickListener(themeListener);
 		themeTitle = (TextView) theme.findViewById(R.id.settings_theme_title);
-		themeSummary = (TextView) theme.findViewById(R.id.settings_theme_summary);
+		themeSummary = (TextView) theme
+				.findViewById(R.id.settings_theme_summary);
 
 		/*
 		 * PLAYER
 		 */
-		playerTitle = (TextView) content.findViewById(R.id.settings_player_title);
+		playerTitle = (TextView) content
+				.findViewById(R.id.settings_player_title);
 
-		View hwAcceleration = content.findViewById(R.id.settings_hw_acceleration);
+		View hwAcceleration = content
+				.findViewById(R.id.settings_hw_acceleration);
 		hwAcceleration.setOnClickListener(hwAccelerationListener);
-		hwAccelerationTitle = (TextView) hwAcceleration.findViewById(R.id.settings_hw_acceleration_title);
-		hwAccelerationSummary = (TextView) hwAcceleration.findViewById(R.id.settings_hw_acceleration_summary);
+		hwAccelerationTitle = (TextView) hwAcceleration
+				.findViewById(R.id.settings_hw_acceleration_title);
+		hwAccelerationSummary = (TextView) hwAcceleration
+				.findViewById(R.id.settings_hw_acceleration_summary);
 
 		/*
 		 * Subtitles
 		 */
-		subtitlesTitle = (TextView) content.findViewById(R.id.settings_subtitles_title);
+		subtitlesTitle = (TextView) content
+				.findViewById(R.id.settings_subtitles_title);
 
-		View subtatlesLanguage = content.findViewById(R.id.settings_subtitles_language);
+		View subtatlesLanguage = content
+				.findViewById(R.id.settings_subtitles_language);
 		subtatlesLanguage.setOnClickListener(subtitleLanguageListener);
-		subtitlesLanguageTitle = (TextView) subtatlesLanguage.findViewById(R.id.settings_subtitles_language_title);
-		subtitlesLanguageSummary = (TextView) subtatlesLanguage.findViewById(R.id.settings_subtitles_language_summary);
+		subtitlesLanguageTitle = (TextView) subtatlesLanguage
+				.findViewById(R.id.settings_subtitles_language_title);
+		subtitlesLanguageSummary = (TextView) subtatlesLanguage
+				.findViewById(R.id.settings_subtitles_language_summary);
 
-		View subtitlesFontSize = content.findViewById(R.id.settings_subtitles_font_size);
+		View subtitlesFontSize = content
+				.findViewById(R.id.settings_subtitles_font_size);
 		subtitlesFontSize.setOnClickListener(subtitleFontSizeListener);
-		subtitlesFontSizeTitle = (TextView) subtitlesFontSize.findViewById(R.id.settings_subtitles_font_size_title);
-		subtitlesFontSizeSummary = (TextView) subtitlesFontSize.findViewById(R.id.settings_subtitles_font_size_summary);
+		subtitlesFontSizeTitle = (TextView) subtitlesFontSize
+				.findViewById(R.id.settings_subtitles_font_size_title);
+		subtitlesFontSizeSummary = (TextView) subtitlesFontSize
+				.findViewById(R.id.settings_subtitles_font_size_summary);
 
 		/*
 		 * DWNLOADS
 		 */
-		downloadsTitle = (TextView) content.findViewById(R.id.settings_downloads_title);
+		downloadsTitle = (TextView) content
+				.findViewById(R.id.settings_downloads_title);
 
 		View vpn = content.findViewById(R.id.settings_vpn);
 		vpn.setOnClickListener(vpnListener);
@@ -145,20 +167,104 @@ public class SettingsActivity extends PopcornBaseActivity {
 		View vpnSponsor = vpn.findViewById(R.id.settings_vpn_sponsor);
 		vpnSponsor.setOnClickListener(vpnSponsorListener);
 		vpnCheckBox = (CheckBox) vpn.findViewById(R.id.settings_vpn_checkbox);
-		vpnCheckBox.setChecked(preferences.getBoolean(PopcornTorrent.IS_PROXY_ENABLE_KEY, false));
+		vpnCheckBox.setChecked(preferences.getBoolean(
+				PopcornTorrent.IS_PROXY_ENABLE_KEY, false));
 		vpnCheckBox.setOnCheckedChangeListener(vpnCheckedListener);
 
 		View chacheFolder = content.findViewById(R.id.settings_cache_folder);
 		chacheFolder.setOnClickListener(chacheListener);
-		chacheFolderTitle = (TextView) chacheFolder.findViewById(R.id.settings_cache_folder_title);
-		chacheFolderSummary = (TextView) chacheFolder.findViewById(R.id.settings_cache_folder_summary);
-		chacheFolderSummary.setText(StorageHelper.getInstance().getChacheDirectoryPath());
+		chacheFolderTitle = (TextView) chacheFolder
+				.findViewById(R.id.settings_cache_folder_title);
+		chacheFolderSummary = (TextView) chacheFolder
+				.findViewById(R.id.settings_cache_folder_summary);
+		chacheFolderSummary.setText(StorageHelper.getInstance()
+				.getChacheDirectoryPath());
 
-		View clearChacheFolder = content.findViewById(R.id.settings_clear_cache_folder);
+		View clearChacheFolder = content
+				.findViewById(R.id.settings_clear_cache_folder);
 		clearChacheFolder.setOnClickListener(clearChacheListener);
-		clearChacheFolderTitle = (TextView) clearChacheFolder.findViewById(R.id.settings_clear_cache_folder_title);
+		clearChacheFolderTitle = (TextView) clearChacheFolder
+				.findViewById(R.id.settings_clear_cache_folder_title);
 
 		updateLocaleText();
+
+		initFlags();
+	}
+
+	private void initFlags() {
+		findViewById(R.id.set_italy).setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_usa).setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_germany)
+				.setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_france).setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_india).setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_china).setOnClickListener(SettingsActivity.this);
+		findViewById(R.id.set_spain).setOnClickListener(SettingsActivity.this);
+
+		if (Preference.getUSA()) {
+			findViewById(R.id.set_usa).setTag(R.id.set_usa, true);
+			findViewById(R.id.set_usa).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_usa).setTag(R.id.set_usa, false);
+			findViewById(R.id.set_usa).setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getItaly()) {
+			findViewById(R.id.set_italy).setTag(R.id.set_italy, true);
+			findViewById(R.id.set_italy).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_italy).setTag(R.id.set_italy, false);
+			findViewById(R.id.set_italy).setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getGermany()) {
+			findViewById(R.id.set_germany).setTag(R.id.set_germany, true);
+			findViewById(R.id.set_germany).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_germany).setTag(R.id.set_germany, false);
+			findViewById(R.id.set_germany)
+					.setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getIndia()) {
+			findViewById(R.id.set_india).setTag(R.id.set_india, true);
+			findViewById(R.id.set_india).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_india).setTag(R.id.set_india, false);
+			findViewById(R.id.set_india).setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getFrance()) {
+			findViewById(R.id.set_france).setTag(R.id.set_france, true);
+			findViewById(R.id.set_france).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_france).setTag(R.id.set_france, false);
+			findViewById(R.id.set_france).setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getChina()) {
+			findViewById(R.id.set_china).setTag(R.id.set_china, true);
+			findViewById(R.id.set_china).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_china).setTag(R.id.set_china, false);
+			findViewById(R.id.set_china).setBackgroundColor(Color.TRANSPARENT);
+		}
+		if (Preference.getSpain()) {
+			findViewById(R.id.set_spain).setTag(R.id.set_spain, true);
+			findViewById(R.id.set_spain).setBackground(
+					getResources().getDrawable(
+							R.drawable.drawer_switch_selected_selector));
+		} else {
+			findViewById(R.id.set_spain).setTag(R.id.set_spain, false);
+			findViewById(R.id.set_spain).setBackgroundColor(Color.TRANSPARENT);
+		}
 	}
 
 	@Override
@@ -171,7 +277,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 		headerTitle.setText(R.string.settings);
 		interfaceTitle.setText(R.string.interface_);
 		languageTitle.setText(R.string.language);
-		languageSummary.setText(LanguageUtil.isoToNativeLanguage(mApplication.getAppLocale().getLanguage()));
+		languageSummary.setText(LanguageUtil.isoToNativeLanguage(mApplication
+				.getAppLocale().getLanguage()));
 		themeTitle.setText(R.string.theme);
 		themeSummary.setText(getCurrentTheme());
 		playerTitle.setText(R.string.player);
@@ -183,7 +290,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 		if ("".equals(subLang)) {
 			subtitlesLanguageSummary.setText(R.string.without_subtitle);
 		} else {
-			subtitlesLanguageSummary.setText(LanguageUtil.languageToNativeLanguage(subLang));
+			subtitlesLanguageSummary.setText(LanguageUtil
+					.languageToNativeLanguage(subLang));
 		}
 		subtitlesFontSizeTitle.setText(R.string.font_size);
 		subtitlesFontSizeSummary.setText(getCurrentFontSizeName());
@@ -195,7 +303,9 @@ public class SettingsActivity extends PopcornBaseActivity {
 	}
 
 	private String getCurrentAccelerationDesc() {
-		int hw_acc = preferences.getInt(PlayerBaseActivity.SETTINGS_HW_ACCELERATION, LibVLC.HW_ACCELERATION_AUTOMATIC);
+		int hw_acc = preferences.getInt(
+				PlayerBaseActivity.SETTINGS_HW_ACCELERATION,
+				LibVLC.HW_ACCELERATION_AUTOMATIC);
 		return getAccelerationDesc(hw_acc);
 	}
 
@@ -219,7 +329,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 	}
 
 	private String getCurrentFontSizeName() {
-		int pos = preferences.getInt(Subtitles.FONT_SIZE_PREF, Subtitles.FontSize.DEFAULT_POSITION);
+		int pos = preferences.getInt(Subtitles.FONT_SIZE_PREF,
+				Subtitles.FontSize.DEFAULT_POSITION);
 		if (pos < fontSizeNames.length) {
 			return fontSizeNames[pos];
 		} else {
@@ -232,9 +343,12 @@ public class SettingsActivity extends PopcornBaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (REQUEST_DIRECTORY == requestCode) {
-				String path = data.getStringExtra(FolderChooserActivity.SELECTED_DIR);
-				StorageHelper.getInstance().setChacheDirectory(SettingsActivity.this, path);
-				chacheFolderSummary.setText(StorageHelper.getInstance().getChacheDirectoryPath());
+				String path = data
+						.getStringExtra(FolderChooserActivity.SELECTED_DIR);
+				StorageHelper.getInstance().setChacheDirectory(
+						SettingsActivity.this, path);
+				chacheFolderSummary.setText(StorageHelper.getInstance()
+						.getChacheDirectoryPath());
 			}
 		}
 	}
@@ -285,7 +399,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 				accelerationDialog = new HwAccelerationDialog();
 			}
 			if (!accelerationDialog.isAdded()) {
-				accelerationDialog.show(getFragmentManager(), "hw_acceleration_dialog");
+				accelerationDialog.show(getFragmentManager(),
+						"hw_acceleration_dialog");
 			}
 		}
 	};
@@ -298,7 +413,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 				subtitleLanguageDialog = new SubtitleLanguageDialog();
 			}
 			if (!subtitleLanguageDialog.isAdded()) {
-				subtitleLanguageDialog.show(getFragmentManager(), "subtitles_lang_dialog");
+				subtitleLanguageDialog.show(getFragmentManager(),
+						"subtitles_lang_dialog");
 			}
 		}
 	};
@@ -311,7 +427,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 				subtitleFontSizeDialog = new SubtitleFontSizeDialog();
 			}
 			if (!subtitleFontSizeDialog.isAdded()) {
-				subtitleFontSizeDialog.show(getFragmentManager(), "subtitles_font_size_dialog");
+				subtitleFontSizeDialog.show(getFragmentManager(),
+						"subtitles_font_size_dialog");
 			}
 		}
 	};
@@ -332,15 +449,19 @@ public class SettingsActivity extends PopcornBaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://kebrum.com/popcorntime")));
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse("http://kebrum.com/popcorntime")));
 		}
 	};
 
 	private OnCheckedChangeListener vpnCheckedListener = new OnCheckedChangeListener() {
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			preferences.edit().putBoolean(PopcornTorrent.IS_PROXY_ENABLE_KEY, isChecked).commit();
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			preferences.edit()
+					.putBoolean(PopcornTorrent.IS_PROXY_ENABLE_KEY, isChecked)
+					.commit();
 		}
 	};
 
@@ -348,7 +469,8 @@ public class SettingsActivity extends PopcornBaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			Intent chooserIntent = new Intent(SettingsActivity.this, FolderChooserActivity.class);
+			Intent chooserIntent = new Intent(SettingsActivity.this,
+					FolderChooserActivity.class);
 			startActivityForResult(chooserIntent, REQUEST_DIRECTORY);
 		}
 	};
@@ -379,14 +501,16 @@ public class SettingsActivity extends PopcornBaseActivity {
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(getResources().getString(R.string.language));
-			builder.setItems(LanguageUtil.INTERFACE_NATIVE_LANGUAGES, new DialogInterface.OnClickListener() {
+			builder.setItems(LanguageUtil.INTERFACE_NATIVE_LANGUAGES,
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					mApplication.changeLanguage(LanguageUtil.INTERFACE_ISO_LANGUAGES[which]);
-					SettingsActivity.this.mLocaleHelper.checkLanguage();
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							mApplication
+									.changeLanguage(LanguageUtil.INTERFACE_ISO_LANGUAGES[which]);
+							SettingsActivity.this.mLocaleHelper.checkLanguage();
+						}
+					});
 			return builder.create();
 		}
 	}
@@ -413,15 +537,21 @@ public class SettingsActivity extends PopcornBaseActivity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle(getResources().getString(R.string.hardware_acceleration));
-			builder.setItems(accelerations, new DialogInterface.OnClickListener() {
+			builder.setTitle(getResources().getString(
+					R.string.hardware_acceleration));
+			builder.setItems(accelerations,
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					preferences.edit().putInt(PlayerBaseActivity.SETTINGS_HW_ACCELERATION, accelerationCode[which]).commit();
-					hwAccelerationSummary.setText(getAccelerationDesc(accelerationCode[which]));
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							preferences
+									.edit()
+									.putInt(PlayerBaseActivity.SETTINGS_HW_ACCELERATION,
+											accelerationCode[which]).commit();
+							hwAccelerationSummary
+									.setText(getAccelerationDesc(accelerationCode[which]));
+						}
+					});
 			return builder.create();
 		}
 	}
@@ -440,14 +570,18 @@ public class SettingsActivity extends PopcornBaseActivity {
 					break;
 				}
 			}
-			builder.setSingleChoiceItems(LanguageUtil.SUBTITLE_NATIVE_LANGUAGES, pos, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					subtitlesLanguageSummary.setText(LanguageUtil.SUBTITLE_NATIVE_LANGUAGES[which]);
-					mApplication.setSubtitleLanguage(LanguageUtil.SUBTITLE_LANGUAGES[which]);
-					dialog.dismiss();
-				}
-			});
+			builder.setSingleChoiceItems(
+					LanguageUtil.SUBTITLE_NATIVE_LANGUAGES, pos,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							subtitlesLanguageSummary
+									.setText(LanguageUtil.SUBTITLE_NATIVE_LANGUAGES[which]);
+							mApplication
+									.setSubtitleLanguage(LanguageUtil.SUBTITLE_LANGUAGES[which]);
+							dialog.dismiss();
+						}
+					});
 			return builder.create();
 		}
 	}
@@ -458,15 +592,132 @@ public class SettingsActivity extends PopcornBaseActivity {
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(getResources().getString(R.string.font_size));
-			builder.setItems(fontSizeNames, new DialogInterface.OnClickListener() {
+			builder.setItems(fontSizeNames,
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					preferences.edit().putInt(Subtitles.FONT_SIZE_PREF, which).commit();
-					subtitlesFontSizeSummary.setText(fontSizeNames[which]);
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							preferences.edit()
+									.putInt(Subtitles.FONT_SIZE_PREF, which)
+									.commit();
+							subtitlesFontSizeSummary
+									.setText(fontSizeNames[which]);
+						}
+					});
 			return builder.create();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.set_usa:
+			if ((boolean) findViewById(R.id.set_usa).getTag(R.id.set_usa) == true) {
+				findViewById(R.id.set_usa)
+						.setBackgroundColor(Color.TRANSPARENT);
+				findViewById(R.id.set_usa).setTag(R.id.set_usa, false);
+				Preference.saveUSA(false);
+			} else {
+				findViewById(R.id.set_usa).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_usa).setTag(R.id.set_usa, true);
+				Preference.saveUSA(true);
+			}
+
+			break;
+		case R.id.set_italy:
+			if ((boolean) findViewById(R.id.set_italy).getTag(R.id.set_italy) == true) {
+				findViewById(R.id.set_italy).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_italy).setTag(R.id.set_italy, false);
+				Preference.saveItaly(false);
+			} else {
+				findViewById(R.id.set_italy).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_italy).setTag(R.id.set_italy, true);
+				Preference.saveItaly(true);
+			}
+
+			break;
+
+		case R.id.set_germany:
+			if ((boolean) findViewById(R.id.set_germany).getTag(
+					R.id.set_germany) == true) {
+				findViewById(R.id.set_germany).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_germany).setTag(R.id.set_germany, false);
+				Preference.saveGermany(false);
+			} else {
+				findViewById(R.id.set_germany).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_germany).setTag(R.id.set_germany, true);
+				Preference.saveGermany(true);
+			}
+
+			break;
+		case R.id.set_france:
+			if ((boolean) findViewById(R.id.set_france).getTag(R.id.set_france) == true) {
+				findViewById(R.id.set_france).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_france).setTag(R.id.set_france, false);
+				Preference.saveFrance(false);
+			} else {
+				findViewById(R.id.set_france).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_france).setTag(R.id.set_france, true);
+				Preference.saveFrance(true);
+			}
+
+			break;
+		case R.id.set_spain:
+			if ((boolean) findViewById(R.id.set_spain).getTag(R.id.set_spain) == true) {
+				findViewById(R.id.set_spain).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_spain).setTag(R.id.set_spain, false);
+				Preference.saveSpain(false);
+			} else {
+				findViewById(R.id.set_spain).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_spain).setTag(R.id.set_spain, true);
+				Preference.saveSpain(true);
+			}
+
+			break;
+		case R.id.set_china:
+			if ((boolean) findViewById(R.id.set_china).getTag(R.id.set_china) == true) {
+				findViewById(R.id.set_china).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_china).setTag(R.id.set_china, false);
+				Preference.saveChina(false);
+			} else {
+				findViewById(R.id.set_china).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_china).setTag(R.id.set_china, true);
+				Preference.saveChina(true);
+			}
+
+			break;
+		case R.id.set_india:
+			if ((boolean) findViewById(R.id.set_india).getTag(R.id.set_india) == true) {
+				findViewById(R.id.set_india).setBackgroundColor(
+						Color.TRANSPARENT);
+				findViewById(R.id.set_india).setTag(R.id.set_india, false);
+				Preference.saveIndia(false);
+			} else {
+				findViewById(R.id.set_india).setBackground(
+						getResources().getDrawable(
+								R.drawable.drawer_switch_selected_selector));
+				findViewById(R.id.set_india).setTag(R.id.set_india, true);
+				Preference.saveIndia(true);
+			}
+
+			break;
 		}
 	}
 

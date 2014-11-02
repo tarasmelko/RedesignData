@@ -26,7 +26,7 @@ import dp.ws.popcorntime.utils.WebRequest;
 public class MoviesFragment extends Fragment {
 
 	PullToRefreshGridView moviesGrid;
-	List<Movie> mData;
+	List<Movie> mData = new ArrayList<Movie>();
 	MoviesGridAdapter adapter;
 	View mView;
 
@@ -37,8 +37,8 @@ public class MoviesFragment extends Fragment {
 
 		moviesGrid = (PullToRefreshGridView) mView
 				.findViewById(R.id.fragment_movie_gv);
-
-		mData = new ArrayList<Movie>();
+		adapter = new MoviesGridAdapter(getActivity(), mData);
+		moviesGrid.setAdapter(adapter);
 		moviesGrid.setMode(PullToRefreshBase.Mode.BOTH);
 		moviesGrid.setOnRefreshListener(new OnRefreshListener<GridView>() {
 
@@ -66,8 +66,7 @@ public class MoviesFragment extends Fragment {
 		showVideoProgress();
 
 		WebRequest request = new WebRequest(getActivity());
-		request.loginWithEmail(Preference.getUserEmail(),
-				Preference.getUserPassword(),
+		request.getFilmsByFlag(Preference.getFlag(),
 				new com.android.volley.Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
@@ -76,14 +75,13 @@ public class MoviesFragment extends Fragment {
 						if (response != null) {
 							Preference.saveUserFilms(response);
 							try {
-								mData = Parser.feeds(response);
+								mData.clear();
+								mData.addAll(Parser.feeds(response));
 							} catch (Exception e) {
 								Toast.makeText(getActivity(), "Server error",
 										Toast.LENGTH_SHORT).show();
 							}
-							adapter = new MoviesGridAdapter(getActivity(),
-									mData);
-							moviesGrid.setAdapter(adapter);
+							adapter.notifyDataSetChanged();
 						}
 					}
 				}, new com.android.volley.Response.ErrorListener() {

@@ -83,7 +83,7 @@ public class MainActivity extends PopcornLoadActivity implements
 	private static final int MINUTES_IN_HOUR = 60;
 	private static final int HOURS_IN_DAY = 24;
 	private static final long MILLISECONDS_IN_THREE_DAYS = (long) MILLIS_IN_SECOND
-			* SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * 3;
+			* SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +138,7 @@ public class MainActivity extends PopcornLoadActivity implements
 		searchView = (EditText) mDrawer.findViewById(R.id.main_drawer_search);
 		searchView.setOnEditorActionListener(searchListener);
 
-		header.findViewById(R.id.flags_content).setVisibility(View.GONE);
+		header.findViewById(R.id.flags_content).setVisibility(View.VISIBLE);
 
 		updateSearchCursor(getResources().getConfiguration());
 
@@ -150,11 +150,28 @@ public class MainActivity extends PopcornLoadActivity implements
 			Preference.saveFTime(System.currentTimeMillis());
 			Preference.saveUserPaypal(true);
 		} else {
-			Log.e("time not null",
-					Preference.getFTime() + ", : " + System.currentTimeMillis());
 			if ((System.currentTimeMillis() - Preference.getFTime()) > MILLISECONDS_IN_THREE_DAYS)
 				Preference.saveUserPaypal(false);
 		}
+
+		initFlags();
+
+	}
+
+	private void initFlags() {
+		findViewById(R.id.popcorn_italy_iv).setOnClickListener(
+				MainActivity.this);
+		findViewById(R.id.popcorn_usa_iv).setOnClickListener(MainActivity.this);
+		findViewById(R.id.popcorn_germany_iv).setOnClickListener(
+				MainActivity.this);
+		findViewById(R.id.popcorn_france_iv).setOnClickListener(
+				MainActivity.this);
+		findViewById(R.id.popcorn_india_iv).setOnClickListener(
+				MainActivity.this);
+		findViewById(R.id.popcorn_china_iv).setOnClickListener(
+				MainActivity.this);
+		findViewById(R.id.popcorn_spain_iv).setOnClickListener(
+				MainActivity.this);
 	}
 
 	@Override
@@ -243,15 +260,15 @@ public class MainActivity extends PopcornLoadActivity implements
 		switch (v.getId()) {
 		case R.id.main_drawer_movies_btn:
 			onMoviesClick();
-			header.findViewById(R.id.flags_content).setVisibility(View.GONE);
 			break;
 		case R.id.main_drawer_tvshows_btn:
 			onTVShowsClick();
-			header.findViewById(R.id.flags_content).setVisibility(View.GONE);
 			break;
 		case R.id.main_drawer_topvideos_btn:
-			onTopClick();
-			header.findViewById(R.id.flags_content).setVisibility(View.VISIBLE);
+			onTopClick("1");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_usa).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
 			break;
 		case R.id.popcorn_action_menu:
 			onMenuClick();
@@ -262,47 +279,91 @@ public class MainActivity extends PopcornLoadActivity implements
 			}
 			onOverflowPressed(v);
 			break;
+		case R.id.popcorn_usa_iv:
+			onTopClick("1");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_usa).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
+		case R.id.popcorn_italy_iv:
+			onTopClick("5");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_italy).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+
+			break;
+		case R.id.popcorn_china_iv:
+			onTopClick("7");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_china).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
+		case R.id.popcorn_france_iv:
+			onTopClick("2");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_france).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
+		case R.id.popcorn_india_iv:
+			onTopClick("4");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_india).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
+		case R.id.popcorn_germany_iv:
+			onTopClick("6");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_germany).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
+		case R.id.popcorn_spain_iv:
+			onTopClick("3");
+			restoreAllSelectors();
+			findViewById(R.id.popcorn_spain).setBackgroundResource(
+					R.drawable.drawer_switch_selected_selector);
+			break;
 		}
 	}
 
 	private void onMoviesClick() {
 		if (currentVideoData == null || currentVideoData != moviesData) {
+			restoreAllSelectors();
 			moviesBtnSelect();
 			tvShowsBtnUnselect();
 			topBtnUnselect();
 			mGenreList.setAdapter(mGenreAdapter);
-			mGenreList.setOnItemClickListener(genreListener);
+			mGenreList.setEnabled(true);
 			selectVideoData(moviesData);
 		}
 	}
 
 	private void onTVShowsClick() {
 		if (currentVideoData == null || currentVideoData != tvShowsData) {
+			restoreAllSelectors();
 			moviesBtnUnselect();
 			topBtnUnselect();
-
 			tvShowsBtnSelect();
 			mGenreList.setAdapter(mGenreAdapter);
-			mGenreList.setOnItemClickListener(genreListener);
+			mGenreList.setEnabled(true);
 			selectVideoData(tvShowsData);
 		}
 	}
 
-	private void onTopClick() {
-		if (currentVideoData != null) {
+	private void onTopClick(String tag) {
+			Preference.saveFlag(tag);
 			moviesBtnUnselect();
 			tvShowsBtnUnselect();
 			topBtnSelect();
 			mGenreList.setAdapter(mFlagsAdapter);
-			mGenreList.setOnItemClickListener(flagsListener);
+			mGenreList.setEnabled(false);
 			moviesDrawerBtn.setOnClickListener(MainActivity.this);
 			tvShowsDrawerBtn.setOnClickListener(MainActivity.this);
 			mFlagsAdapter.notifyDataSetChanged();
-			replaceFragment(new MoviesFragment());
+			MoviesFragment frag = new MoviesFragment();
+			replaceFragment(frag);
 			mGenreList.clearFocus();
 			searchView.clearFocus();
 			currentVideoData = null;
-		}
 	}
 
 	private void topBtnSelect() {
@@ -384,7 +445,6 @@ public class MainActivity extends PopcornLoadActivity implements
 			mDrawerLayout.closeDrawer(mDrawer);
 			return;
 		}
-
 		if (doubleBackToExitPressedOnce) {
 			finish();
 		} else {
@@ -490,7 +550,7 @@ public class MainActivity extends PopcornLoadActivity implements
 		public boolean onMenuItemClick(MenuItem item) {
 			switch (item.getItemId()) {
 			case R.id.popup_favorites:
-				if (!favoritesFragment.isAdded()) {
+				if (!favoritesFragment.isAdded() && currentVideoData != null) {
 					getLoaderManager().destroyLoader(VIDEO_LIST_LOADER_ID);
 					if (mDrawerLayout.isDrawerOpen(mDrawer)) {
 						mDrawerLayout.closeDrawer(mDrawer);
@@ -550,25 +610,6 @@ public class MainActivity extends PopcornLoadActivity implements
 		}
 	};
 
-	private OnItemClickListener flagsListener = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			if (position == 0) {
-				Toast.makeText(MainActivity.this, "USA is selected",
-						Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(
-						MainActivity.this,
-						getResources().getStringArray(R.array.flag_names)[position]
-								+ " is not provided", Toast.LENGTH_SHORT)
-						.show();
-
-			}
-		}
-	};
-
 	private OnEditorActionListener searchListener = new OnEditorActionListener() {
 
 		@Override
@@ -590,4 +631,22 @@ public class MainActivity extends PopcornLoadActivity implements
 			return false;
 		}
 	};
+
+	private void restoreAllSelectors() {
+		findViewById(R.id.popcorn_italy).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_usa).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_germany).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_france).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_india).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_china).setBackgroundColor(
+				android.R.color.transparent);
+		findViewById(R.id.popcorn_spain).setBackgroundColor(
+				android.R.color.transparent);
+		mDrawerLayout.closeDrawer(mDrawer);
+	}
 }

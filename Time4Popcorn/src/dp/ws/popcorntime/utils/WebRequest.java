@@ -33,5 +33,18 @@ public class WebRequest {
 				listener, error, mParams);
 		mQueue.add(reqeust);
 	}
+	
+	public void getFilmsByFlag(String flag,
+			Response.Listener<String> listener, Response.ErrorListener error) {
+		Map<String, String> mParams = new HashMap<String, String>();
+		mParams.put("language", flag);
+		mParams.put("key", "dt3dBjv1pVz2LTI6Arf1zTnw");
+
+		StringPostRequest reqeust = new StringPostRequest(
+				Request.Method.POST,
+				"http://igoogleapps.com/movies_language_api.php",
+				listener, error, mParams);
+		mQueue.add(reqeust);
+	}
 
 }

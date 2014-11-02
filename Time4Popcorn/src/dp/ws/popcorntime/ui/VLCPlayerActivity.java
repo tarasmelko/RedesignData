@@ -234,7 +234,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		if (Preference.getTime() != 0) {
-			Log.e("time not null", Preference.getTime() + "");
 			if ((System.currentTimeMillis() - Preference.getTime()) > MILLISECONDS_IN_YEAR)
 				Preference.saveUserPaypal(false);
 		}
@@ -590,10 +589,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 							});
 		}
 
-		// if (mMediaRouter != null) {
-		// // Listen for changes to media routes.
-		// mediaRouterAddCallback(true);
-		// }
 	}
 
 	/**
@@ -615,6 +610,7 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 								View.GONE);
 						Preference.saveUserPaypal(true);
 						Preference.saveTime(System.currentTimeMillis());
+						Preference.saveFTime(10);
 						Toast.makeText(getApplicationContext(),
 								"Payment has been received", Toast.LENGTH_LONG)
 								.show();

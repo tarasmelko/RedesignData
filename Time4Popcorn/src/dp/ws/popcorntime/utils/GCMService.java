@@ -32,6 +32,7 @@ public class GCMService extends IntentService {
 	String mes;
 	String title;
 	String icon;
+	String language;
 	private Handler handler;
 	public Bitmap imageData;
 
@@ -52,7 +53,38 @@ public class GCMService extends IntentService {
 		title = extras.getString("title");
 		mes = extras.getString("message");
 		icon = extras.getString("icon");
-		getBitmap();
+		language = extras.getString("language");
+		Log.e("DATA", language);
+		switch (Integer.parseInt(language)) {
+		case 1:
+			if (Preference.getUSA())
+				getBitmap();
+			break;
+		case 2:
+			if (Preference.getFrance())
+				getBitmap();
+			break;
+		case 3:
+			if (Preference.getSpain())
+				getBitmap();
+			break;
+		case 4:
+			if (Preference.getIndia())
+				getBitmap();
+			break;
+		case 5:
+			if (Preference.getItaly())
+				getBitmap();
+			break;
+		case 6:
+			if (Preference.getGermany())
+				getBitmap();
+			break;
+		case 7:
+			if (Preference.getChina())
+				getBitmap();
+			break;
+		}
 		GCMReceiver.completeWakefulIntent(intent);
 	}
 

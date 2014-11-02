@@ -87,32 +87,14 @@ public class VideoStreamActivity extends Activity {
 
 	private void setupView() {
 		if (Preference.getTime() != 0) {
-			Log.e("time not null", Preference.getTime() + "");
 			if ((System.currentTimeMillis() - Preference.getTime()) > MILLISECONDS_IN_YEAR)
 				Preference.saveUserPaypal(false);
 		}
+
 		findViewById(R.id.subscribe).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				/*
-				 * PAYMENT_INTENT_SALE will cause the payment to complete
-				 * immediately. Change PAYMENT_INTENT_SALE to -
-				 * PAYMENT_INTENT_AUTHORIZE to only authorize payment and
-				 * capture funds later. - PAYMENT_INTENT_ORDER to create a
-				 * payment for authorization and capture later via calls from
-				 * your server.
-				 * 
-				 * Also, to include additional payment details and an item list,
-				 * see getStuffToBuy() below.
-				 */
 				PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
-
-				/*
-				 * See getStuffToBuy(..) for examples of some available payment
-				 * options.
-				 */
-
 				Intent intent = new Intent(VideoStreamActivity.this,
 						PaymentActivity.class);
 
@@ -217,7 +199,7 @@ public class VideoStreamActivity extends Activity {
 	}
 
 	private PayPalPayment getThingToBuy(String paymentIntent) {
-		return new PayPalPayment(new BigDecimal("3.99"), "USD",
+		return new PayPalPayment(new BigDecimal("9.99"), "USD",
 				"Subscription for one year", paymentIntent);
 	}
 
@@ -229,9 +211,9 @@ public class VideoStreamActivity extends Activity {
 		TextView titleIcon = (TextView) findViewById(R.id.fragment_video_streaming_title_tv);
 		titleIcon.setText(title + "");
 
-//		LoadImage loader = new LoadImage(this);
-//		loader.loadImageRoundedCache(
-//				getIntent().getExtras().getString(Constants.ICON), mImage, 50);
+		// LoadImage loader = new LoadImage(this);
+		// loader.loadImageRoundedCache(
+		// getIntent().getExtras().getString(Constants.ICON), mImage, 50);
 
 		mVideoView.setVideoURI(Uri.parse(url));
 		showVideoProgress();
@@ -333,6 +315,7 @@ public class VideoStreamActivity extends Activity {
 					findViewById(R.id.paypal_layout).setVisibility(View.GONE);
 					Preference.saveUserPaypal(true);
 					Preference.saveTime(System.currentTimeMillis());
+					Preference.saveFTime(10);
 					Toast.makeText(getApplicationContext(),
 							"Payment has been received", Toast.LENGTH_LONG)
 							.show();

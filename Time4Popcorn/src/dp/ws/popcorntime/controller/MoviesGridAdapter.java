@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import dp.ws.popcorntime.R;
 import dp.ws.popcorntime.model.videodata.Movie;
-import dp.ws.popcorntime.ui.DescriptionFragment;
+import dp.ws.popcorntime.ui.DescriptionActivity;
 import dp.ws.popcorntime.ui.MainActivity;
 import dp.ws.popcorntime.utils.Constants;
 import dp.ws.popcorntime.utils.LoadImage;
@@ -86,11 +87,16 @@ public class MoviesGridAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				((MainActivity) mContext).replaceFragment(DescriptionFragment
-						.instance(Constants.ICON_PREFIX + item.getImage(),
-								Constants.VIDEO_PREFIX + item.getFiles(),
-								item.getDescription(), item.getName()));
-
+				Intent description = new Intent(mContext,
+						DescriptionActivity.class);
+				description.putExtra(Constants.DESCRIPTION,
+						item.getDescription());
+				description.putExtra(Constants.ICON, Constants.ICON_PREFIX
+						+ item.getImage());
+				description.putExtra(Constants.NAME, item.getName());
+				description.putExtra(Constants.MEDIA, Constants.VIDEO_PREFIX
+						+ item.getFiles());
+				((MainActivity) mContext).startActivity(description);
 			}
 		});
 
