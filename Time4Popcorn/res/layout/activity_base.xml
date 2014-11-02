@@ -27,14 +27,15 @@
 
     <ImageView
         android:id="@+id/popcorn_logo"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/i_movies"
-        android:visibility="visible" />
+        android:layout_centerVertical="true"
+        android:paddingLeft="45dp"
+        android:paddingTop="5dp"
+        android:scaleType="fitXY"
+        android:visibility="invisible" />
 
     <FrameLayout
         android:id="@+id/popcorn_splash"

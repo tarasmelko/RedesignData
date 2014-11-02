@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/email"
         android:layout_below="@+id/email"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/fild"
         android:ems="10"
         android:hint="type yout password"
@@ -40,7 +40,7 @@
         android:layout_alignLeft="@+id/password"
         android:layout_alignRight="@+id/password"
         android:layout_below="@+id/password"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/ic_login_button"
         android:text="Okay"
         android:textColor="#ffffff"
@@ -76,5 +76,113 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/login_usa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drawer_switch_selected_selector" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/usa" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_china"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/china" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_germany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/germany" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_india"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/india" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_france"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/france" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_italy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/italy" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_spain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/spain" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

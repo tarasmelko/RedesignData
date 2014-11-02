@@ -132,7 +132,7 @@
             android:layout_centerInParent="true"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="Full Access Unlimited Movies By Remove This Screen for $3.99/Year"
+            android:text="Full Access Unlimited Movies By Remove This Screen for $9.99/Year"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#212121"
             android:textSize="@dimen/paypal_text_size" />

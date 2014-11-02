@@ -4,9 +4,49 @@
     android:background="#000000" >
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popcorn_header_bck" >
+
+        <ImageView
+            android:layout_width="135dp"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/i_movies"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/description_action_back"
+            style="@style/HeaderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_back" />
+
+        <ImageButton
+            android:id="@+id/description_action_settings"
+            style="@style/SettingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_action_settings" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/movie_icon"
         android:layout_width="@dimen/icon_width"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
         android:background="#ffffff" >
 
         <ImageView
@@ -20,7 +60,6 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:src="@drawable/sd" />
     </RelativeLayout>
@@ -39,21 +78,6 @@
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/movie_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/movie_icon"
-        android:layout_margin="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/movie_icon"
-        android:gravity="left"
-        android:text="The Fault in our stars"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffff"
-        android:textSize="25sp" />
-
     <Button
         android:id="@+id/watch_btn"
         android:layout_width="wrap_content"
@@ -67,5 +91,18 @@
         android:textColor="#284651"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/movie_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description_text"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_margin="10dp"
+        android:gravity="left"
+        android:text="The Fault in our stars"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="25sp" />
 
 </RelativeLayout>

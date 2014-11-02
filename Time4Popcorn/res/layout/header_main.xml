@@ -23,84 +23,126 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_overflow" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/flags_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/popcorn_action_menu" >
+        android:layout_toRightOf="@+id/popcorn_action_menu"
+        android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/popcorn_italy"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_usa"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/italy" />
-
-        <ImageButton
-            android:id="@+id/popcorn_germany"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_italy"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/germany" />
-
-        <ImageButton
+        <RelativeLayout
             android:id="@+id/popcorn_usa"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_action_menu"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/usa" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-        <ImageButton
-            android:id="@+id/popcorn_india"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_germany"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/india" />
+            <ImageView
+                android:id="@+id/popcorn_usa_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/usa" />
+        </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/popcorn_france"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_india"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/france" />
-
-        <ImageButton
+        <RelativeLayout
             android:id="@+id/popcorn_china"
-            style="@style/HeaderButton"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/popcorn_france"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/china" />
-    </RelativeLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_china_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/china" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/popcorn_germany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_germany_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/germany" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/popcorn_india"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_india_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/india" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/popcorn_france"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_france_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/france" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/popcorn_italy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_italy_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/italy" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/popcorn_spain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/popcorn_spain_iv"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/spain" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/popcorn_logo"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/i_movies" />
 
 </RelativeLayout>
