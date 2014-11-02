@@ -82,7 +82,12 @@
         </activity>
         <activity
             android:name="dp.ws.popcorntime.ui.VideoStreamActivity"
-           android:configChanges="orientation|screenSize|locale"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="dp.ws.popcorntime.ui.DescriptionActivity"
+            android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
