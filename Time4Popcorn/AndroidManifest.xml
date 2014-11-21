@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dp.ws.popcorntime"
+    package="com.heliocratic.imovies"
     android:installLocation="auto"
     android:versionCode="15"
     android:versionName="2.3.2" >
@@ -25,10 +25,10 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <permission
-        android:name="dp.ws.popcorntime.permission.C2D_MESSAGE"
+        android:name="com.heliocratic.imovies.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="dp.ws.popcorntime.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.heliocratic.imovies.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:name="android.hardware.wifi"
@@ -36,7 +36,7 @@
     </uses-feature>
 
     <application
-        android:name="dp.ws.popcorntime.PopcornApplication"
+        android:name="com.heliocratic.imovies.PopcornApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/ic_launcher" >
@@ -45,17 +45,17 @@
             android:value="@integer/google_play_services_version" />
 
         <receiver
-            android:name="dp.ws.popcorntime.utils.GCMReceiver"
+            android:name="com.heliocratic.imovies.utils.GCMReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="dp.ws.popcorntime" />
+                <category android:name="com.heliocratic.imovies" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="dp.ws.popcorntime.ui.SplashActivity"
+            android:name="com.heliocratic.imovies.ui.SplashActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" >
@@ -66,53 +66,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.LoginActivity"
+            android:name="com.heliocratic.imovies.ui.LoginActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
 
-        <service android:name="dp.ws.popcorntime.utils.GCMService" />
+        <service android:name="com.heliocratic.imovies.utils.GCMService" />
 
         <activity
-            android:name="dp.ws.popcorntime.ui.MainActivity"
+            android:name="com.heliocratic.imovies.ui.MainActivity"
             android:configChanges="orientation|screenSize|locale"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.VideoStreamActivity"
+            android:name="com.heliocratic.imovies.ui.VideoStreamActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.DescriptionActivity"
+            android:name="com.heliocratic.imovies.ui.DescriptionActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.VideoActivity"
+            android:name="com.heliocratic.imovies.ui.VideoActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.SettingsActivity"
+            android:name="com.heliocratic.imovies.ui.SettingsActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.FolderChooserActivity"
+            android:name="com.heliocratic.imovies.ui.FolderChooserActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.TrailerActivity"
+            android:name="com.heliocratic.imovies.ui.TrailerActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Popcorn.NoActionBar" >
         </activity>
         <activity
-            android:name="dp.ws.popcorntime.ui.VLCPlayerActivity"
+            android:name="com.heliocratic.imovies.ui.VLCPlayerActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Popcorn.Player" >
@@ -122,8 +122,8 @@
         <service android:name="eu.sesma.castania.castserver.CastServerService" />
 
         <provider
-            android:name="dp.ws.popcorntime.database.DBProvider"
-            android:authorities="dp.ws.popcorntime"
+            android:name="com.heliocratic.imovies.database.DBProvider"
+            android:authorities="com.heliocratic.imovies"
             android:exported="false"
             android:label="@string/app_name" />
 

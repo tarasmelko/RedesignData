@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
-    <dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout
+    <com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout
         android:id="@+id/popcorn_header"
         android:layout_width="match_parent"
         android:layout_height="43dp" >
-    </dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout>
+    </com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout>
 
-    <dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout
+    <com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout
         android:id="@+id/popcorn_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/popcorn_header" >
-    </dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout>
+    </com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout>
 
     <View
         android:id="@+id/popcorn_header_line"

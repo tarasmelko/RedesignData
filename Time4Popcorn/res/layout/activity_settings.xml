@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Notifications Settings" />
+            android:text="Notifications Settings"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#000000" />
+            android:background="#000000"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,7 +34,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <RelativeLayout
                 android:id="@+id/set_usa"

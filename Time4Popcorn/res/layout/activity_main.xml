@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context="eu.time4popcorn.ui.MainActivity" >
 
-    <dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout
+    <com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout
         android:id="@+id/main_content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/classic_main_body" >
-    </dp.ws.popcorntime.ui.widget.BlockTouchFrameLayout>
+    </com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout>
 
     <RelativeLayout
         android:id="@+id/main_drawer"
@@ -52,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/top_videos" />
+                android:text="@string/top_videos"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ListView
