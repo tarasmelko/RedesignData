@@ -24,7 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.googlecast.CastPopcornListener;
 import com.heliocratic.imovies.googlecast.GoogleCast;
@@ -108,7 +108,7 @@ public abstract class PlayerBaseActivity extends LocaleFragmentActivity implemen
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		mPreferences = getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+		mPreferences = getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 		mVideoInfo = getIntent().getExtras().getParcelable(VIDEO_INFO_EXTARA_KEY);
 		mSubtitles = new Subtitles(PlayerBaseActivity.this, PlayerBaseActivity.this, mVideoInfo);
 		mSubtitles.position = getIntent().getIntExtra(SUBTITLE_POSITION_EXTARA_KEY, 0);

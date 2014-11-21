@@ -2,7 +2,7 @@ package com.heliocratic.imovies.ui.locale;
 
 import java.util.Locale;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -14,7 +14,7 @@ public class LocalePopupMenu extends PopupMenu {
 	public LocalePopupMenu(Activity activity, View anchor) {
 		super(activity, anchor);
 
-		Locale locale = new Locale(((PopcornApplication) activity.getApplication()).getAppLocale().getLanguage());
+		Locale locale = new Locale(((IMoviesApplication) activity.getApplication()).getAppLocale().getLanguage());
 		Locale.setDefault(locale);
 		Configuration config = activity.getResources().getConfiguration();
 		config.locale = locale;

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.app.Activity;
 import android.content.Context;
@@ -127,7 +127,7 @@ public class StorageHelper {
 
 	public void init(Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(
-				PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+				IMoviesApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 		String path = preferences.getString(CHACHE_FOLDER_PATH, "");
 		if ("".equals(path)) {
 			setChacheDirectory(context, getDefaultChacheFolder(context));
@@ -164,7 +164,7 @@ public class StorageHelper {
 			}
 
 			SharedPreferences preferences = context.getSharedPreferences(
-					PopcornApplication.POPCORN_PREFERENCES,
+					IMoviesApplication.POPCORN_PREFERENCES,
 					Activity.MODE_PRIVATE);
 			preferences
 					.edit()

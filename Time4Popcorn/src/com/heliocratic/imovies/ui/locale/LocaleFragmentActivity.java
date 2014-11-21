@@ -1,6 +1,6 @@
 package com.heliocratic.imovies.ui.locale;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,7 +11,7 @@ public abstract class LocaleFragmentActivity extends FragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		mLocaleHelper = new LocaleHelper((PopcornApplication) getApplication(), LocaleFragmentActivity.this);
+		mLocaleHelper = new LocaleHelper((IMoviesApplication) getApplication(), LocaleFragmentActivity.this);
 		super.onCreate(arg0);
 	}
 

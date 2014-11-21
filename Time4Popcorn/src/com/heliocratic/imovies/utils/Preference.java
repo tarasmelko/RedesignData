@@ -1,6 +1,6 @@
 package com.heliocratic.imovies.utils;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -27,7 +27,7 @@ public class Preference {
 
 	public static SharedPreferences getSharedPreferences() {
 		if (sharedPreferences == null) {
-			sharedPreferences = PopcornApplication.instance()
+			sharedPreferences = IMoviesApplication.instance()
 					.getSharedPreferences(PREF, Activity.MODE_PRIVATE);
 		}
 		return sharedPreferences;

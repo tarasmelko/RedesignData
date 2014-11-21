@@ -48,7 +48,8 @@ import com.heliocratic.imovies.utils.StorageHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public abstract class VideoBaseFragment extends LocaleFragment implements LoaderCallbacks<LoaderResponse>, SubtitleCallbacks {
+public abstract class VideoBaseFragment extends LocaleFragment implements
+		LoaderCallbacks<LoaderResponse>, SubtitleCallbacks {
 
 	public static final String RESPONSE_JSON_KEY = "popcorntime_response_json";
 
@@ -89,17 +90,25 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mActivity = (PopcornBaseActivity) getActivity();
-		videoInfo = mActivity.getIntent().getExtras().getParcelable(VideoActivity.VIDEO_INFO_KEY);
-		imageOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisk(true).build();
-		prepareAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.popcorn_prepare);
-		mSubtitleAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner_video);
-		mSubtitleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mTorrentAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner_video);
-		mTorrentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		videoInfo = mActivity.getIntent().getExtras()
+				.getParcelable(VideoActivity.VIDEO_INFO_KEY);
+		imageOptions = new DisplayImageOptions.Builder().cacheInMemory(false)
+				.cacheOnDisk(true).build();
+		prepareAnim = AnimationUtils.loadAnimation(getActivity(),
+				R.anim.popcorn_prepare);
+		mSubtitleAdapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.item_spinner_video);
+		mSubtitleAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mTorrentAdapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.item_spinner_video);
+		mTorrentAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View view = mActivity.setPopcornSplashView(R.layout.view_prepare);
 		prepare = view.findViewById(R.id.video_prepare);
 		Button close = (Button) view.findViewById(R.id.video_prepare_close);
@@ -109,7 +118,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 
 	protected void populateView(View view) {
 		poster = (ImageView) view.findViewById(R.id.video_poster);
-		ImageLoader.getInstance().displayImage(videoInfo.posterBigUrl, poster, imageOptions);
+		ImageLoader.getInstance().displayImage(videoInfo.posterBigUrl, poster,
+				imageOptions);
 		title = (TextView) view.findViewById(R.id.video_title);
 		title.setText(Html.fromHtml("<b>" + videoInfo.title + "</b>"));
 		description = (TextView) view.findViewById(R.id.video_description);
@@ -130,7 +140,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 	@Override
 	public void updateLocaleText() {
 		super.updateLocaleText();
-		metadataLoadingErrorMsg = getResources().getString(R.string.error_metadata);
+		metadataLoadingErrorMsg = getResources().getString(
+				R.string.error_metadata);
 		subtitleSpinner.setPromptId(R.string.subtitles);
 		torrentSpinner.setPromptId(R.string.torrents);
 		watchItNow.setText(R.string.watch_it_now);
@@ -150,7 +161,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 	}
 
 	@Override
-	public void onLoadFinished(Loader<LoaderResponse> loader, LoaderResponse response) {
+	public void onLoadFinished(Loader<LoaderResponse> loader,
+			LoaderResponse response) {
 		switch (loader.getId()) {
 		case Subtitles.LOADER_ID:
 			mSubtitles.onLoadFinished(loader, response);
@@ -188,19 +200,23 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 	}
 
 	protected void checkIsFavorites(VideoInfo info) {
-		Cursor cursor = mActivity.getContentResolver().query(Favorites.CONTENT_URI, null, Favorites._IMDB + "=\"" + info.imdb + "\"", null, null);
+		Cursor cursor = mActivity.getContentResolver().query(
+				Favorites.CONTENT_URI, null,
+				Favorites._IMDB + "=\"" + info.imdb + "\"", null, null);
 		if (cursor != null && cursor.getCount() > 0) {
 			isFavorites = true;
 			Favorites.update(mActivity, info);
 		} else {
 			isFavorites = false;
 		}
-		cursor.close();
+		if (cursor != null)
+			cursor.close();
 	}
 
 	protected void replaceSubtitleData(List<String> subtitleSpinnerData) {
 		if (subtitleSpinnerData != null && subtitleSpinnerData.size() > 0) {
-			subtitleSpinnerData.set(0, getResources().getString(R.string.without_subtitle));
+			subtitleSpinnerData.set(0,
+					getResources().getString(R.string.without_subtitle));
 
 			mSubtitleAdapter.clear();
 			mSubtitleAdapter.addAll(subtitleSpinnerData);
@@ -215,8 +231,12 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 			List<String> torrentSpinnerData = new ArrayList<String>();
 			for (int i = 0; i < torrents.size(); i++) {
 				Torrent torrent = torrents.get(i);
-				torrentSpinnerData.add(torrent.quality + ", " + getResources().getString(R.string.size) + ": " + StorageHelper.getSizeText(torrent.size) + ", "
-						+ getResources().getString(R.string.seeds) + ": " + torrent.seeds + ", " + getResources().getString(R.string.peers) + ": "
+				torrentSpinnerData.add(torrent.quality + ", "
+						+ getResources().getString(R.string.size) + ": "
+						+ StorageHelper.getSizeText(torrent.size) + ", "
+						+ getResources().getString(R.string.seeds) + ": "
+						+ torrent.seeds + ", "
+						+ getResources().getString(R.string.peers) + ": "
 						+ torrent.peers);
 			}
 
@@ -237,7 +257,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 		subtitleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
 				mSubtitles.position = position;
 			}
 
@@ -252,7 +273,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 		torrentSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
 				torrentPos = position;
 			}
 
@@ -264,7 +286,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 
 	private void loadWatchFinished(LoaderResponse response) {
 		if (response.error != null) {
-			Toast.makeText(getActivity(), metadataLoadingErrorMsg, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), metadataLoadingErrorMsg,
+					Toast.LENGTH_SHORT).show();
 		} else {
 			if (response.data != null) {
 				String[] _data = response.data.split(LoaderResponse.DELIMETER);
@@ -280,29 +303,39 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 		mActivity.setPopcornSplashVisible(false);
 	}
 
-	private void startWatch(String torrentFilePath, String videoFileName, String subFilePath) {
+	private void startWatch(String torrentFilePath, String videoFileName,
+			String subFilePath) {
 		Intent intent = new Intent(getActivity(), VLCPlayerActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse("file://" + torrentFilePath));
 
 		if (VideoData.Type.MOVIES.equals(videoInfo.getType())) {
-			intent.putExtra(PlayerBaseActivity.VIDEO_INFO_EXTARA_KEY, (MovieInfo) videoInfo);
+			intent.putExtra(PlayerBaseActivity.VIDEO_INFO_EXTARA_KEY,
+					(MovieInfo) videoInfo);
 		} else if (VideoData.Type.TV_SHOWS.equals(videoInfo.getType())) {
-			intent.putExtra(PlayerBaseActivity.VIDEO_INFO_EXTARA_KEY, (TVShowInfo) videoInfo);
+			intent.putExtra(PlayerBaseActivity.VIDEO_INFO_EXTARA_KEY,
+					(TVShowInfo) videoInfo);
 		}
 
 		if (videoFileName != null && !"".equals(videoFileName)) {
-			intent.putExtra(PlayerBaseActivity.FILENAME_EXTARA_KEY, videoFileName);
+			intent.putExtra(PlayerBaseActivity.FILENAME_EXTARA_KEY,
+					videoFileName);
 		}
 
 		if (subFilePath != null && !"".equals(subFilePath)) {
-			intent.putExtra(PlayerBaseActivity.SUBTITLE_FILE_PATH_EXTARA_KEY, subFilePath);
+			intent.putExtra(PlayerBaseActivity.SUBTITLE_FILE_PATH_EXTARA_KEY,
+					subFilePath);
 		}
 
 		if (mSubtitles.data != null && mSubtitles.urls != null) {
-			intent.putExtra(PlayerBaseActivity.SUBTITLE_POSITION_EXTARA_KEY, mSubtitles.position);
-			intent.putStringArrayListExtra(PlayerBaseActivity.SUBTITLE_DATA_EXTARA_KEY, mSubtitles.data);
-			intent.putStringArrayListExtra(PlayerBaseActivity.SUBTITLE_URLS_EXTARA_KEY, mSubtitles.urls);
+			intent.putExtra(PlayerBaseActivity.SUBTITLE_POSITION_EXTARA_KEY,
+					mSubtitles.position);
+			intent.putStringArrayListExtra(
+					PlayerBaseActivity.SUBTITLE_DATA_EXTARA_KEY,
+					mSubtitles.data);
+			intent.putStringArrayListExtra(
+					PlayerBaseActivity.SUBTITLE_URLS_EXTARA_KEY,
+					mSubtitles.urls);
 		}
 
 		startActivity(intent);
@@ -337,10 +370,13 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 				mActivity.setPopcornSplashVisible(true);
 
 				Bundle data = new Bundle();
-				data.putString(WatchLoader.TEMP_FOLDER_PATH_KEY, StorageHelper.getInstance().getChacheDirectoryPath());
+				data.putString(WatchLoader.TEMP_FOLDER_PATH_KEY, StorageHelper
+						.getInstance().getChacheDirectoryPath());
 				data.putString(WatchLoader.TORRENT_URL_KEY, torrentUrl);
-				data.putString(WatchLoader.SUBTITLE_URL_KEY, mSubtitles.getUrl());
-				getLoaderManager().restartLoader(WATCH_LOADER_ID, data, VideoBaseFragment.this).forceLoad();
+				data.putString(WatchLoader.SUBTITLE_URL_KEY,
+						mSubtitles.getUrl());
+				getLoaderManager().restartLoader(WATCH_LOADER_ID, data,
+						VideoBaseFragment.this).forceLoad();
 			}
 		}
 	};
@@ -348,7 +384,8 @@ public abstract class VideoBaseFragment extends LocaleFragment implements Loader
 	private OnCheckedChangeListener favoritesListener = new OnCheckedChangeListener() {
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
 			onFavoritesChecked(isChecked);
 			isFavorites = isChecked;
 		}

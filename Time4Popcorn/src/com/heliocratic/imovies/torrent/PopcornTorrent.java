@@ -12,7 +12,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 import com.heliocratic.imovies.config.Configuration;
 import com.heliocratic.imovies.utils.ExtGenericFilter;
 import com.heliocratic.imovies.utils.StorageHelper;
@@ -60,7 +60,7 @@ public class PopcornTorrent {
 
 	public void onCreate(Context context) {
 		mContext = context;
-		SharedPreferences preferences = context.getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+		SharedPreferences preferences = context.getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 		if (preferences.getBoolean(IS_PROXY_ENABLE_KEY, false)) {
 			libTorrent.SetProxy(ProxyType.SOCKS_5_PW, Configuration.VPN.host, Configuration.VPN.port, Configuration.VPN.user, Configuration.VPN.pass);
 		} else {
@@ -247,7 +247,7 @@ public class PopcornTorrent {
 	}
 
 	private void deletePreviousTorrent() {
-		SharedPreferences prefs = mContext.getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES, Context.MODE_PRIVATE);
+		SharedPreferences prefs = mContext.getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES, Context.MODE_PRIVATE);
 		String latestContent = prefs.getString(LAST_CONTENT_KEY, "");
 
 		if (!latestContent.equals(mContentName)) {

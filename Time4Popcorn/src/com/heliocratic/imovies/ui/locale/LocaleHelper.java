@@ -2,17 +2,17 @@ package com.heliocratic.imovies.ui.locale;
 
 import java.util.Locale;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.content.res.Configuration;
 
 public class LocaleHelper {
 
-	private PopcornApplication mApplication;
+	private IMoviesApplication mApplication;
 	private LocaleListener mListener;
 	private Locale mLocale;
 
-	public LocaleHelper(PopcornApplication application, LocaleListener localeListener) {
+	public LocaleHelper(IMoviesApplication application, LocaleListener localeListener) {
 		mApplication = application;
 		mListener = localeListener;
 		updateLocale();

@@ -20,7 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.subtitles.Subtitles;
 import com.heliocratic.imovies.torrent.PopcornTorrent;
@@ -36,7 +36,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 	private final int REQUEST_DIRECTORY = 3457;
 
-	private PopcornApplication mApplication;
+	private IMoviesApplication mApplication;
 	private SharedPreferences preferences;
 
 	// language
@@ -86,9 +86,9 @@ public class SettingsActivity extends PopcornBaseActivity implements
 		setTheme(R.style.Theme_Popcorn_Classic);
 		super.onCreate(savedInstanceState);
 
-		mApplication = (PopcornApplication) getApplication();
+		mApplication = (IMoviesApplication) getApplication();
 		preferences = getSharedPreferences(
-				PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+				IMoviesApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 
 		// Header
 		getPopcornLogoView().setVisibility(View.GONE);

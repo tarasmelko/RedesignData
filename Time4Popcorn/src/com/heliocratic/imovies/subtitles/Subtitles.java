@@ -17,7 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.mozilla.universalchardet.UniversalDetector;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 import com.heliocratic.imovies.controller.URLLoader;
 import com.heliocratic.imovies.model.LoaderResponse;
 import com.heliocratic.imovies.model.videodata.VideoData;
@@ -154,7 +154,7 @@ public class Subtitles {
 			JSONObject subs = jsonSubtitles.getJSONObject("subs").getJSONObject(info.imdb);
 			@SuppressWarnings("unchecked")
 			Iterator<String> iter = subs.keys();
-			String subLang = ((PopcornApplication) activity.getApplication()).getSubtitleLanguage();
+			String subLang = ((IMoviesApplication) activity.getApplication()).getSubtitleLanguage();
 			while (iter.hasNext()) {
 				String key = iter.next();
 				JSONArray subInfos = subs.getJSONArray(key);
@@ -189,7 +189,7 @@ public class Subtitles {
 			JSONObject subs = jsonSubtitles.getJSONObject("subs");
 			@SuppressWarnings("unchecked")
 			Iterator<String> iter = subs.keys();
-			String subLang = ((PopcornApplication) activity.getApplication()).getSubtitleLanguage();
+			String subLang = ((IMoviesApplication) activity.getApplication()).getSubtitleLanguage();
 			while (iter.hasNext()) {
 				String key = iter.next();
 				JSONArray subInfos = subs.getJSONArray(key);
@@ -217,7 +217,7 @@ public class Subtitles {
 	}
 
 	public static float getFontScale(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
+		SharedPreferences prefs = context.getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES, Activity.MODE_PRIVATE);
 		int pos = prefs.getInt(FONT_SIZE_PREF, FontSize.DEFAULT_POSITION);
 		if (pos < FontSize.SIZES.length) {
 			return FontSize.SIZES[pos];

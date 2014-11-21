@@ -22,14 +22,14 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 
 @ReportsCrashes(formKey = "", mode = ReportingInteractionMode.SILENT, mailTo = "support.popcorn@yandex.ru")
-public class PopcornApplication extends VLCApplication {
+public class IMoviesApplication extends VLCApplication {
 
 	public static final String LOG_TAG = "tag";
 	public static final String POPCORN_PREFERENCES = "PopcornPreferences";
 
 	private final String IS_SHORTCUT_CREATED = "is-shortcut-created";
 	private final String APP_LOCALE = "app-locale";
-	private static PopcornApplication mApp;
+	private static IMoviesApplication mApp;
 	private SharedPreferences mPrefs;
 	private Locale mLocale;
 
@@ -39,7 +39,7 @@ public class PopcornApplication extends VLCApplication {
 		//ACRA.init(PopcornApplication.this);
 		mApp = this;
 
-		mPrefs = getSharedPreferences(PopcornApplication.POPCORN_PREFERENCES,
+		mPrefs = getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES,
 				Activity.MODE_PRIVATE);
 
 		initSubtitleLanguage();
@@ -51,12 +51,12 @@ public class PopcornApplication extends VLCApplication {
 
 		// initImageLoader(this);
 
-		StorageHelper.getInstance().init(PopcornApplication.this);
+		StorageHelper.getInstance().init(IMoviesApplication.this);
 
 		addShortcut();
 	}
 
-	public static PopcornApplication instance() {
+	public static IMoviesApplication instance() {
 		return mApp;
 	}
 

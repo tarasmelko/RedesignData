@@ -1,6 +1,6 @@
 package com.heliocratic.imovies.ui.locale;
 
-import com.heliocratic.imovies.PopcornApplication;
+import com.heliocratic.imovies.IMoviesApplication;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ public class LocaleFragment extends Fragment implements LocaleListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mLocaleHelper = new LocaleHelper((PopcornApplication) getActivity().getApplication(), LocaleFragment.this);
+		mLocaleHelper = new LocaleHelper((IMoviesApplication) getActivity().getApplication(), LocaleFragment.this);
 		super.onCreate(savedInstanceState);
 	}
 	
