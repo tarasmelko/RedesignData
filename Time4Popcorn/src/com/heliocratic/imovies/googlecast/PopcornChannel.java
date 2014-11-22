@@ -6,7 +6,7 @@ import com.google.android.gms.cast.CastDevice;
 public class PopcornChannel implements MessageReceivedCallback {
 
 	public String getNamespace() {
-		return "urn:x-cast:dp.ws.popcorntime";
+		return "urn:x-cast:com.heliocratic.imovies";
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import android.text.TextUtils;
 
 public class DBProvider extends ContentProvider {
 
-	public static final String CONTENT_AUTHORITY = "dp.ws.popcorntime";
+	public static final String CONTENT_AUTHORITY = "com.heliocratic.imovies";
 	public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 	private static final int FAVORITES = 100;
