@@ -2,7 +2,6 @@ package com.heliocratic.imovies;
 
 import java.util.Locale;
 
-import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.videolan.vlc.VLCApplication;

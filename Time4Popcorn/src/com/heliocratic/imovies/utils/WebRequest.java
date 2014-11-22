@@ -29,7 +29,7 @@ public class WebRequest {
 		mParams.put("registration_id", Preference.getRegistrationId());
 		StringPostRequest reqeust = new StringPostRequest(
 				Request.Method.POST,
-				"http://igoogleapps.com/signup_api.php?key=dt3dBjv1pVz2LTI6Arf1zTnw",
+				"http://igoogleapps.com/signup_site_api.php?key=dt3dBjv1pVz2LTI6Arf1zTnw",
 				listener, error, mParams);
 		mQueue.add(reqeust);
 	}
