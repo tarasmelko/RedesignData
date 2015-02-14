@@ -5,9 +5,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -16,7 +20,7 @@ import com.heliocratic.imovies.utils.Preference;
 
 public class SplashActivity extends Activity {
 	private Timer mSplashTime;
-	String PROJECT_NUMBER = "1059048236175";
+	String PROJECT_NUMBER = "67246118737";
 	GoogleCloudMessaging gcm;
 	String regid;
 
@@ -49,6 +53,21 @@ public class SplashActivity extends Activity {
 		};
 
 		mSplashTime.schedule(launchMainActivity, 3000);
+
+		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		
+		if(tm.getDeviceId()!=null)
+			Preference.saveIMEI(tm.getDeviceId());
+		
+		if(Preference.getImei().isEmpty()){
+			Preference.saveIMEI(Secure.getString(getContentResolver(),
+                    Secure.ANDROID_ID));
+		}
+		
+		if(Preference.getImei().isEmpty()){
+			Preference.saveIMEI(Build.SERIAL);
+		}
+		Log.e("IMEI", Preference.getImei());
 	}
 
 	@Override

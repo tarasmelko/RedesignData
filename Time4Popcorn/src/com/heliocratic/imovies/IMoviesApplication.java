@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-
 @ReportsCrashes(formKey = "", mode = ReportingInteractionMode.SILENT, mailTo = "support.popcorn@yandex.ru")
 public class IMoviesApplication extends VLCApplication {
 
@@ -35,7 +34,6 @@ public class IMoviesApplication extends VLCApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//ACRA.init(PopcornApplication.this);
 		mApp = this;
 
 		mPrefs = getSharedPreferences(IMoviesApplication.POPCORN_PREFERENCES,

@@ -7,20 +7,17 @@ import android.content.SharedPreferences;
 
 public class Preference {
 
-	// private static final String TAG = "Preference";
 	private static final String PREF = "igoogle";
 	private static final String USER_ID = "user_id";
-	private static final String USER_NAME = "name";
 	private static final String USER_PIC = "pic";
 	private static final String USER_EMAIL = "email";
-	private static final String USER_GENDER = "gender";
-	private static final String USER_LASTNAME = "lastname";
+	private static final String IMEI = "imei";
 	private static final String REG_ID = "reg_id";
 	private static final String PASS = "pass";
-	private static final String TIME = "time";
-	private static final String FIRST_TIME = "first_time";
 	private static final String COUNTRY_SETTINGS = "country";
-
+	private static final String USER_PAYPAL = "paypal";
+	private static final String DEVICE_ID = "id";
+	
 	private static final String FLAG = "flag";
 
 	private static SharedPreferences sharedPreferences = null;
@@ -53,6 +50,28 @@ public class Preference {
 		return getSharedPreferences().getString("FILMS", "");
 	}
 
+	public synchronized static void saveIMEI(String data) {
+		SharedPreferences.Editor editor = getSharedPreferences().edit();
+		editor.putString(IMEI, data);
+		editor.commit();
+	}
+
+	public synchronized static String getImei() {
+		return getSharedPreferences().getString(IMEI, "");
+	}
+	
+	public synchronized static void saveDeviceId(String data) {
+		SharedPreferences.Editor editor = getSharedPreferences().edit();
+		editor.putString(DEVICE_ID, data);
+		editor.commit();
+	}
+	
+	public synchronized static String getDeviceId() {
+		return getSharedPreferences().getString(DEVICE_ID, "default");
+	}
+	
+	
+
 	public synchronized static void saveFlag(String flag) {
 		SharedPreferences.Editor editor = getSharedPreferences().edit();
 		editor.putString(FLAG, flag);
@@ -83,26 +102,6 @@ public class Preference {
 		return getSharedPreferences().getString(USER_EMAIL, "");
 	}
 
-	public synchronized static void saveTime(long time) {
-		SharedPreferences.Editor editor = getSharedPreferences().edit();
-		editor.putLong(TIME, time);
-		editor.commit();
-	}
-
-	public synchronized static long getTime() {
-		return getSharedPreferences().getLong(TIME, 0);
-	}
-
-	public synchronized static void saveFTime(long time) {
-		SharedPreferences.Editor editor = getSharedPreferences().edit();
-		editor.putLong(FIRST_TIME, time);
-		editor.commit();
-	}
-
-	public synchronized static long getFTime() {
-		return getSharedPreferences().getLong(FIRST_TIME, 0);
-	}
-
 	public synchronized static void saveUserRegistrationId(String userId) {
 		SharedPreferences.Editor editor = getSharedPreferences().edit();
 		editor.putString(REG_ID, userId);
@@ -125,12 +124,12 @@ public class Preference {
 
 	public synchronized static void saveUserPaypal(boolean tag) {
 		SharedPreferences.Editor editor = getSharedPreferences().edit();
-		editor.putBoolean(USER_PIC, tag);
+		editor.putBoolean(USER_PAYPAL, tag);
 		editor.commit();
 	}
 
 	public synchronized static boolean getUserPaypal() {
-		return getSharedPreferences().getBoolean(USER_PIC, false);
+		return getSharedPreferences().getBoolean(USER_PAYPAL, false);
 	}
 
 	// usa

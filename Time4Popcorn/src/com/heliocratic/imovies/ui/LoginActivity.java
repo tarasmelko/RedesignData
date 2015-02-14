@@ -41,25 +41,22 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		Button loginEmail = (Button) findViewById(R.id.login_button);
 		final EditText email = (EditText) findViewById(R.id.email);
-		final EditText password = (EditText) findViewById(R.id.password);
 		if (possibleEmail != null)
 			email.setText(possibleEmail);
 		loginEmail.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (TextUtils.isEmpty(email.getText().toString())
-						|| TextUtils.isEmpty(password.getText().toString())) {
-					Toast.makeText(LoginActivity.this, "Input your data",
-							Toast.LENGTH_LONG).show();
+				if (TextUtils.isEmpty(email.getText().toString())) {
+					Toast.makeText(LoginActivity.this,
+							"Email address required", Toast.LENGTH_LONG).show();
 					return;
 				} else {
 					if (!isValidEmail(email.getText().toString())) {
 						Toast.makeText(LoginActivity.this, "Wrong email",
 								Toast.LENGTH_LONG).show();
 					} else {
-						loginWithEmail(email.getText().toString(), password
-								.getText().toString());
+						loginWithEmailData(email.getText().toString(), "default");
 					}
 				}
 
@@ -96,8 +93,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 						.matches();
 	}
 
-	private void loginWithEmail(final String email, final String password) {
+	private void loginWithEmailData(final String email, final String password) {
 		WebRequest request = new WebRequest(this);
+		
+		if(Preference.getImei().isEmpty()){
+			Toast.makeText(LoginActivity.this, "Sorry. You cant login. IMEI is nill",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+		
 		showProgress();
 		request.loginWithEmail(email, password,
 				new com.android.volley.Response.Listener<String>() {
@@ -147,7 +151,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login_usa:
-			if ((boolean) findViewById(R.id.login_usa).getTag(R.id.login_usa) == true) {
+			if ((Boolean) findViewById(R.id.login_usa).getTag(R.id.login_usa) == true) {
 				findViewById(R.id.login_usa).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.login_usa).setTag(R.id.login_usa, false);
@@ -162,7 +166,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			break;
 		case R.id.login_italy:
-			if ((boolean) findViewById(R.id.login_italy).getTag(
+			if ((Boolean) findViewById(R.id.login_italy).getTag(
 					R.id.login_italy) == true) {
 				findViewById(R.id.login_italy).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -179,7 +183,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.login_germany:
-			if ((boolean) findViewById(R.id.login_germany).getTag(
+			if ((Boolean) findViewById(R.id.login_germany).getTag(
 					R.id.login_germany) == true) {
 				findViewById(R.id.login_germany).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -197,7 +201,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			break;
 		case R.id.login_france:
-			if ((boolean) findViewById(R.id.login_france).getTag(
+			if ((Boolean) findViewById(R.id.login_france).getTag(
 					R.id.login_france) == true) {
 				findViewById(R.id.login_france).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -214,7 +218,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			break;
 		case R.id.login_spain:
-			if ((boolean) findViewById(R.id.login_spain).getTag(
+			if ((Boolean) findViewById(R.id.login_spain).getTag(
 					R.id.login_spain) == true) {
 				findViewById(R.id.login_spain).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -230,7 +234,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			break;
 		case R.id.login_china:
-			if ((boolean) findViewById(R.id.login_china).getTag(
+			if ((Boolean) findViewById(R.id.login_china).getTag(
 					R.id.login_china) == true) {
 				findViewById(R.id.login_china).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -246,7 +250,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			break;
 		case R.id.login_india:
-			if ((boolean) findViewById(R.id.login_india).getTag(
+			if ((Boolean) findViewById(R.id.login_india).getTag(
 					R.id.login_india) == true) {
 				findViewById(R.id.login_india).setBackgroundColor(
 						Color.TRANSPARENT);

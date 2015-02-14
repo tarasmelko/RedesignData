@@ -613,7 +613,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.set_usa:
-			if ((boolean) findViewById(R.id.set_usa).getTag(R.id.set_usa) == true) {
+			if ((Boolean) findViewById(R.id.set_usa).getTag(R.id.set_usa) == true) {
 				findViewById(R.id.set_usa)
 						.setBackgroundColor(Color.TRANSPARENT);
 				findViewById(R.id.set_usa).setTag(R.id.set_usa, false);
@@ -628,7 +628,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 			break;
 		case R.id.set_italy:
-			if ((boolean) findViewById(R.id.set_italy).getTag(R.id.set_italy) == true) {
+			if ((Boolean) findViewById(R.id.set_italy).getTag(R.id.set_italy) == true) {
 				findViewById(R.id.set_italy).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.set_italy).setTag(R.id.set_italy, false);
@@ -644,7 +644,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 			break;
 
 		case R.id.set_germany:
-			if ((boolean) findViewById(R.id.set_germany).getTag(
+			if ((Boolean) findViewById(R.id.set_germany).getTag(
 					R.id.set_germany) == true) {
 				findViewById(R.id.set_germany).setBackgroundColor(
 						Color.TRANSPARENT);
@@ -660,7 +660,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 			break;
 		case R.id.set_france:
-			if ((boolean) findViewById(R.id.set_france).getTag(R.id.set_france) == true) {
+			if ((Boolean) findViewById(R.id.set_france).getTag(R.id.set_france) == true) {
 				findViewById(R.id.set_france).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.set_france).setTag(R.id.set_france, false);
@@ -675,7 +675,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 			break;
 		case R.id.set_spain:
-			if ((boolean) findViewById(R.id.set_spain).getTag(R.id.set_spain) == true) {
+			if ((Boolean) findViewById(R.id.set_spain).getTag(R.id.set_spain) == true) {
 				findViewById(R.id.set_spain).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.set_spain).setTag(R.id.set_spain, false);
@@ -690,7 +690,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 			break;
 		case R.id.set_china:
-			if ((boolean) findViewById(R.id.set_china).getTag(R.id.set_china) == true) {
+			if ((Boolean) findViewById(R.id.set_china).getTag(R.id.set_china) == true) {
 				findViewById(R.id.set_china).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.set_china).setTag(R.id.set_china, false);
@@ -705,7 +705,7 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 			break;
 		case R.id.set_india:
-			if ((boolean) findViewById(R.id.set_india).getTag(R.id.set_india) == true) {
+			if ((Boolean) findViewById(R.id.set_india).getTag(R.id.set_india) == true) {
 				findViewById(R.id.set_india).setBackgroundColor(
 						Color.TRANSPARENT);
 				findViewById(R.id.set_india).setTag(R.id.set_india, false);

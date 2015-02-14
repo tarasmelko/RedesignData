@@ -87,10 +87,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.torrent.VideoResult;
 import com.heliocratic.imovies.ui.base.PlayerBaseActivity;
 import com.heliocratic.imovies.utils.Preference;
+import com.heliocratic.imovies.utils.WebRequest;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -101,14 +104,6 @@ import com.softwarrior.libtorrent.TorrentState;
 public class VLCPlayerActivity extends PlayerBaseActivity implements
 		IVideoPlayer {
 	public final static String TAG = "VLC/VideoPlayerActivity";
-
-	private static final int MILLIS_IN_SECOND = 1000;
-	private static final int SECONDS_IN_MINUTE = 60;
-	private static final int MINUTES_IN_HOUR = 60;
-	private static final int HOURS_IN_DAY = 24;
-	private static final int DAYS_IN_YEAR = 365;
-	private static final long MILLISECONDS_IN_YEAR = (long) MILLIS_IN_SECOND
-			* SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR;
 
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
 
@@ -231,11 +226,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		super.onCreate(savedInstanceState);
 
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-
-		if (Preference.getTime() != 0) {
-			if ((System.currentTimeMillis() - Preference.getTime()) > MILLISECONDS_IN_YEAR)
-				Preference.saveUserPaypal(false);
-		}
 
 		/* Services and miscellaneous */
 		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -400,8 +390,7 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		/* Only show the subtitles surface when using "Full Acceleration" mode */
 		if (mLibVLC.getHardwareAcceleration() == LibVLC.HW_ACCELERATION_FULL)
 			mSubtitlesSurface.setVisibility(View.VISIBLE);
-		// Signal to LibVLC that the videoPlayerActivity was created, thus the
-		// SurfaceView is now available for MediaCodec direct rendering.
+
 		mLibVLC.eventVideoPlayerActivityCreated(true);
 
 		EventHandler em = EventHandler.getInstance();
@@ -409,45 +398,11 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		// Extra initialization when no secondary display is detected
-		// if (mPresentation == null) {
-		// Orientation
-		// 100 is the value for screen_orientation_start_lock
-		// setRequestedOrientation(mScreenOrientation != 100 ?
-		// mScreenOrientation : getScreenOrientation());
-		// Tips
-		// mOverlayTips = findViewById(R.id.player_overlay_tips);
-		// if (mSettings.getBoolean(PREF_TIPS_SHOWN, false))
-		// mOverlayTips.setVisibility(View.GONE);
-		// else {
-		// mOverlayTips.bringToFront();
-		// mOverlayTips.invalidate();
-		// }
-		// } else
-		// setRequestedOrientation(getScreenOrientation());
-
-		// updateNavStatus();
 		findViewById(R.id.subscribe).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				/*
-				 * PAYMENT_INTENT_SALE will cause the payment to complete
-				 * immediately. Change PAYMENT_INTENT_SALE to -
-				 * PAYMENT_INTENT_AUTHORIZE to only authorize payment and
-				 * capture funds later. - PAYMENT_INTENT_ORDER to create a
-				 * payment for authorization and capture later via calls from
-				 * your server.
-				 * 
-				 * Also, to include additional payment details and an item list,
-				 * see getStuffToBuy() below.
-				 */
 				PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
-
-				/*
-				 * See getStuffToBuy(..) for examples of some available payment
-				 * options.
-				 */
 
 				Intent intent = new Intent(VLCPlayerActivity.this,
 						PaymentActivity.class);
@@ -464,7 +419,7 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 	Runnable run;
 
 	private void runPaypalSubscribe() {
-		int time = 15 * 60000;
+		int time = 30 * 60000;
 		Intent intent = new Intent(this, PayPalService.class);
 		intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
 		startService(intent);
@@ -605,11 +560,11 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 						Log.i(TAG, confirm.getPayment().toJSONObject()
 								.toString(4));
 
+						setToTrue();
+
 						findViewById(R.id.paypal_layout).setVisibility(
 								View.GONE);
-						Preference.saveUserPaypal(true);
-						Preference.saveTime(System.currentTimeMillis());
-						Preference.saveFTime(10);
+
 						Toast.makeText(getApplicationContext(),
 								"Payment has been received", Toast.LENGTH_LONG)
 								.show();
@@ -631,11 +586,32 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		}
 	}
 
+	private void setToTrue() {
+
+		WebRequest getPay = new WebRequest(this);
+		getPay.setPayToTrue(Preference.getImei(), new Listener<String>() {
+
+			@Override
+			public void onResponse(String arg0) {
+				Log.e("RESPONSE", "Good" + arg0.toString());
+				Preference.saveUserPaypal(true);
+			}
+		}, new com.android.volley.Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Log.e("RESPONSE", "error" + error.toString());
+
+			}
+		});
+
+		Log.e("IS PAYED", Preference.getUserPaypal() + "");
+
+	}
+
 	private void startPrepareTorrent() {
 		mSurface.setKeepScreenOn(true);
 		if (isTorrentVideoReady) {
 			mLibVLC.playIndex(savedIndexPosition);
-			// resume video play
 			long rTime = mSettings.getLong(
 					PreferencesActivity.VIDEO_RESUME_TIME, -1);
 			mSettings.edit().putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
@@ -1446,7 +1422,7 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 				showInfo(Strings.millisToString(progress));
 			}
 
-			if (progress > (15 * 60000) && !Preference.getUserPaypal()) {
+			if (progress > (30 * 60000) && !Preference.getUserPaypal()) {
 				if (payPalDelay != null && run != null)
 					payPalDelay.removeCallbacks(run);
 				if (findViewById(R.id.paypal_layout).getVisibility() == View.GONE)

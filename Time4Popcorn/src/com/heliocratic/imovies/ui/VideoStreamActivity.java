@@ -11,7 +11,6 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,30 +47,14 @@ public class VideoStreamActivity extends Activity {
 	private Timer timer;
 	private boolean barsVisibility = true;
 	private int time = 6000;
-	private static final int MILLIS_IN_SECOND = 1000;
-	private static final int SECONDS_IN_MINUTE = 60;
-	private static final int MINUTES_IN_HOUR = 60;
-	private static final int HOURS_IN_DAY = 24;
-	private static final int DAYS_IN_YEAR = 365; // I know this value is more
-													// like 365.24...
-	private static final long MILLISECONDS_IN_YEAR = (long) MILLIS_IN_SECOND
-			* SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR;
-	/**
-	 * - Set to PaymentActivity.ENVIRONMENT_PRODUCTION to move real money.
-	 * 
-	 * - Set to PaymentActivity.ENVIRONMENT_SANDBOX to use your test credentials
-	 * from https://developer.paypal.com
-	 * 
-	 * - Set to PayPalConfiguration.ENVIRONMENT_NO_NETWORK to kick the tires
-	 * without communicating to PayPal's servers.
-	 */
+
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
 
-	// note that these credentials will differ between live & sandbox
-	// environments.
 	private static final String CONFIG_CLIENT_ID = "ARAEHBBZ_2uPrsCkO53bKeZb9taA1Y4adbJ4vGha5eI_2WvSw763bBdY6bS1";
+
 	private static PayPalConfiguration config = new PayPalConfiguration()
 			.environment(CONFIG_ENVIRONMENT).clientId(CONFIG_CLIENT_ID);
+
 	private static final int REQUEST_CODE_PAYMENT = 1;
 
 	@Override
@@ -85,10 +68,6 @@ public class VideoStreamActivity extends Activity {
 	}
 
 	private void setupView() {
-		if (Preference.getTime() != 0) {
-			if ((System.currentTimeMillis() - Preference.getTime()) > MILLISECONDS_IN_YEAR)
-				Preference.saveUserPaypal(false);
-		}
 
 		findViewById(R.id.subscribe).setOnClickListener(new OnClickListener() {
 			@Override
@@ -210,10 +189,6 @@ public class VideoStreamActivity extends Activity {
 		TextView titleIcon = (TextView) findViewById(R.id.fragment_video_streaming_title_tv);
 		titleIcon.setText(title + "");
 
-		// LoadImage loader = new LoadImage(this);
-		// loader.loadImageRoundedCache(
-		// getIntent().getExtras().getString(Constants.ICON), mImage, 50);
-
 		mVideoView.setVideoURI(Uri.parse(url));
 		showVideoProgress();
 		mVideoView.start();
@@ -248,7 +223,7 @@ public class VideoStreamActivity extends Activity {
 				mProgressSeekBar.postDelayed(onEverySecond, 1000);
 				mCurrnetTime
 						.setText(countTime(mVideoView.getCurrentPosition()));
-				Log.e("time0", mVideoView.getCurrentPosition() + "");
+
 				if (mVideoView.getCurrentPosition() > (15 * 60000)
 						&& !Preference.getUserPaypal()) {
 					if (payPalDelay != null && run != null)
@@ -301,9 +276,6 @@ public class VideoStreamActivity extends Activity {
 
 	}
 
-	/**
-	 * TODO: torrent logic
-	 * */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE_PAYMENT) {
@@ -313,8 +285,7 @@ public class VideoStreamActivity extends Activity {
 				if (confirm != null) {
 					findViewById(R.id.paypal_layout).setVisibility(View.GONE);
 					Preference.saveUserPaypal(true);
-					Preference.saveTime(System.currentTimeMillis());
-					Preference.saveFTime(10);
+
 					Toast.makeText(getApplicationContext(),
 							"Payment has been received", Toast.LENGTH_LONG)
 							.show();

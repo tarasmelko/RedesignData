@@ -12,8 +12,6 @@ import com.android.volley.toolbox.Volley;
 
 public class WebRequest {
 
-	public static final String ACTION_SIGNIN = "http://igoogleapps.com/signup_api.php?key=dt3dBjv1pVz2LTI6Arf1zTnw";
-
 	private RequestQueue mQueue;
 
 	public WebRequest(Activity activity) {
@@ -24,8 +22,9 @@ public class WebRequest {
 	public void loginWithEmail(String email, String password,
 			Response.Listener<String> listener, Response.ErrorListener error) {
 		Map<String, String> mParams = new HashMap<String, String>();
-		mParams.put("password", password);
+		mParams.put("password", "default");
 		mParams.put("email", email);
+		mParams.put("imei", Preference.getImei());
 		mParams.put("registration_id", Preference.getRegistrationId());
 		StringPostRequest reqeust = new StringPostRequest(
 				Request.Method.POST,
@@ -33,17 +32,36 @@ public class WebRequest {
 				listener, error, mParams);
 		mQueue.add(reqeust);
 	}
-	
-	public void getFilmsByFlag(String flag,
-			Response.Listener<String> listener, Response.ErrorListener error) {
+
+	public void setPayToTrue(String imei, Response.Listener<String> listener,
+			Response.ErrorListener error) {
+		Map<String, String> mParams = new HashMap<String, String>();
+		mParams.put("paid_imei", imei);
+		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
+				"http://igoogleapps.com/paid_status_api.php", listener, error,
+				mParams);
+		mQueue.add(reqeust);
+	}
+
+	public void getPayedStatus(String imei, Response.Listener<String> listener,
+			Response.ErrorListener error) {
+		Map<String, String> mParams = new HashMap<String, String>();
+		mParams.put("imei", imei);
+		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
+				"http://igoogleapps.com/get_status_api.php", listener, error,
+				mParams);
+		mQueue.add(reqeust);
+	}
+
+	public void getFilmsByFlag(String flag, Response.Listener<String> listener,
+			Response.ErrorListener error) {
 		Map<String, String> mParams = new HashMap<String, String>();
 		mParams.put("language", flag);
 		mParams.put("key", "dt3dBjv1pVz2LTI6Arf1zTnw");
 
-		StringPostRequest reqeust = new StringPostRequest(
-				Request.Method.POST,
-				"http://igoogleapps.com/movies_language_api.php",
-				listener, error, mParams);
+		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
+				"http://igoogleapps.com/movies_language_api.php", listener,
+				error, mParams);
 		mQueue.add(reqeust);
 	}
 

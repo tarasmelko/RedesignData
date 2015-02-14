@@ -13,6 +13,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,8 +21,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.google.android.gms.internal.ex;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.ui.MainActivity;
 
@@ -30,8 +33,8 @@ import com.heliocratic.imovies.ui.MainActivity;
  */
 public class GCMService extends IntentService {
 
-	String mes;
-	String title;
+	String mes = "test";
+	String title = "test";
 	String icon;
 	String language;
 	private Handler handler;
@@ -53,39 +56,10 @@ public class GCMService extends IntentService {
 		dumpIntent(intent);
 		title = extras.getString("title");
 		mes = extras.getString("message");
-		icon = extras.getString("icon");
-		language = extras.getString("language");
-		Log.e("DATA", language);
-		switch (Integer.parseInt(language)) {
-		case 1:
-			if (Preference.getUSA())
-				getBitmap();
-			break;
-		case 2:
-			if (Preference.getFrance())
-				getBitmap();
-			break;
-		case 3:
-			if (Preference.getSpain())
-				getBitmap();
-			break;
-		case 4:
-			if (Preference.getIndia())
-				getBitmap();
-			break;
-		case 5:
-			if (Preference.getItaly())
-				getBitmap();
-			break;
-		case 6:
-			if (Preference.getGermany())
-				getBitmap();
-			break;
-		case 7:
-			if (Preference.getChina())
-				getBitmap();
-			break;
-		}
+		if (extras.getString("icon") != null)
+			icon = extras.getString("icon");
+
+		getBitmap();
 		GCMReceiver.completeWakefulIntent(intent);
 	}
 
@@ -94,7 +68,7 @@ public class GCMService extends IntentService {
 
 			@Override
 			protected String doInBackground(String... params) {
-				imageData = getBitmapFromURL(Constants.ICON_PREFIX + icon);
+				imageData = getBitmapFromURL(icon);
 				return null;
 			}
 
@@ -129,7 +103,9 @@ public class GCMService extends IntentService {
 						.setContentIntent(pIntent)
 						.setAutoCancel(true)
 						.setSmallIcon(R.drawable.ic_launcher)
-						.setLargeIcon(imageData)
+						.setStyle(
+								new Notification.BigPictureStyle()
+										.bigPicture(imageData))
 						.setSound(
 								Uri.parse("android.resource://"
 										+ getApplicationContext()

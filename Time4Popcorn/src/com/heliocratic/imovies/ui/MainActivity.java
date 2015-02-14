@@ -2,6 +2,9 @@ package com.heliocratic.imovies.ui;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +34,9 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.controller.FlagsAdapter;
@@ -46,6 +52,7 @@ import com.heliocratic.imovies.ui.locale.LocalePopupMenu;
 import com.heliocratic.imovies.ui.widget.BlockTouchFrameLayout;
 import com.heliocratic.imovies.utils.JSONHelper;
 import com.heliocratic.imovies.utils.Preference;
+import com.heliocratic.imovies.utils.WebRequest;
 
 public class MainActivity extends PopcornLoadActivity implements
 		LoaderCallbacks<LoaderResponse>, OnClickListener {
@@ -77,12 +84,6 @@ public class MainActivity extends PopcornLoadActivity implements
 
 	GoogleCloudMessaging gcm;
 	String regid;
-	private static final int MILLIS_IN_SECOND = 1000;
-	private static final int SECONDS_IN_MINUTE = 60;
-	private static final int MINUTES_IN_HOUR = 60;
-	private static final int HOURS_IN_DAY = 24;
-	private static final long MILLISECONDS_IN_THREE_DAYS = (long) MILLIS_IN_SECOND
-			* SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,23 +138,51 @@ public class MainActivity extends PopcornLoadActivity implements
 		searchView = (EditText) mDrawer.findViewById(R.id.main_drawer_search);
 		searchView.setOnEditorActionListener(searchListener);
 
-		header.findViewById(R.id.flags_content).setVisibility(View.GONE);
-
 		updateSearchCursor(getResources().getConfiguration());
 
 		updateLocaleText();
 
 		onMoviesClick();
 
-		if (Preference.getFTime() == 0) {
-			Preference.saveFTime(System.currentTimeMillis());
-			Preference.saveUserPaypal(true);
-		} else {
-			if ((System.currentTimeMillis() - Preference.getFTime()) > MILLISECONDS_IN_THREE_DAYS)
-				Preference.saveUserPaypal(false);
-		}
+		setupUserPayment();
 
 		initFlags();
+
+	}
+
+	private void setupUserPayment() {
+		WebRequest getPay = new WebRequest(this);
+
+		getPay.getPayedStatus(Preference.getImei(), new Listener<String>() {
+
+			@Override
+			public void onResponse(String arg0) {
+				Log.e("RESPONSE", arg0.toString() + "");
+				try {
+					JSONObject response = new JSONObject(arg0);
+					String status = response.optString("is_paid");
+					if (status.equals("1")) {
+						Preference.saveUserPaypal(true);
+					} else {
+						Preference.saveUserPaypal(false);
+					}
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
+
+				Log.e("IS PAYED", Preference.getUserPaypal() + "");
+
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				Log.e("Error Param", arg0.toString() + "");
+
+			}
+		});
 
 	}
 
@@ -519,7 +548,6 @@ public class MainActivity extends PopcornLoadActivity implements
 			try {
 				if (VideoData.Type.MOVIES.equals(response.info)) {
 					data = JSONHelper.parseMovies(response.data);
-					Log.e("DATA0", response.data);
 				} else if (VideoData.Type.TV_SHOWS.equals(response.info)) {
 					data = JSONHelper.parseTVShows(response.data);
 				}
@@ -540,31 +568,6 @@ public class MainActivity extends PopcornLoadActivity implements
 			}
 		}
 	}
-
-	private void addHardCodedFilms() {
-		ArrayList<VideoInfo> data = null;
-		try {
-			data = JSONHelper.parseMovies("");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (data != null) {
-
-			Bundle args = new Bundle();
-			args.putParcelableArrayList(GridVideoFragment.VIDEO_INFO_LIST_KEY,
-					data);
-			videoFragment = new GridVideoFragment();
-			videoFragment.setArguments(args);
-			videoFragment.setVideoData(currentVideoData);
-			showContent();
-		} else {
-			showError();
-		}
-	}
-
-	/*
-	 * Listeners
-	 */
 
 	private OnMenuItemClickListener overflowMenuListener = new OnMenuItemClickListener() {
 
