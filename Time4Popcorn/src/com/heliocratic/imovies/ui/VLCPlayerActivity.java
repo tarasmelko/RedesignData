@@ -21,11 +21,11 @@
 package com.heliocratic.imovies.ui;
 
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
@@ -46,6 +46,7 @@ import org.videolan.vlc.util.WeakHandler;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -85,7 +86,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
@@ -94,25 +94,15 @@ import com.heliocratic.imovies.torrent.VideoResult;
 import com.heliocratic.imovies.ui.base.PlayerBaseActivity;
 import com.heliocratic.imovies.utils.Preference;
 import com.heliocratic.imovies.utils.WebRequest;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.softwarrior.libtorrent.TorrentState;
 
 public class VLCPlayerActivity extends PlayerBaseActivity implements
 		IVideoPlayer {
 	public final static String TAG = "VLC/VideoPlayerActivity";
 
-	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
-
-	private static final String CONFIG_CLIENT_ID = "ARAEHBBZ_2uPrsCkO53bKeZb9taA1Y4adbJ4vGha5eI_2WvSw763bBdY6bS1";
+	private ProgressDialog mDialog;
 
 	private static final int REQUEST_CODE_PAYMENT = 1;
-
-	private static PayPalConfiguration config = new PayPalConfiguration()
-			.environment(CONFIG_ENVIRONMENT).clientId(CONFIG_CLIENT_ID);
 
 	private SurfaceView mSurface;
 	private SurfaceView mSubtitlesSurface;
@@ -350,12 +340,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 
 		initPopcorn();
 
-		/* Loading view */
-		// mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
-		// mLoadingText = (TextView)
-		// findViewById(R.id.player_overlay_loading_text);
-		// startLoadingAnimation();
-
 		mSwitchingView = false;
 		mEndReached = false;
 
@@ -363,9 +347,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		// videos.
 		SharedPreferences.Editor editor = mSettings.edit();
 		editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-		// Also clear the subs list, because it is supposed to be per session
-		// only (like desktop VLC). We don't want the customs subtitle file
-		// to persist forever with this video.
 		editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
 		editor.commit();
 
@@ -374,15 +355,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		filter.addAction(VLCApplication.SLEEP_INTENT);
 		registerReceiver(mReceiver, filter);
 
-		// if (mPresentation != null &&
-		// !mSettings.getBoolean("enable_secondary_display_hardware_acceleration",
-		// false)) {
-		// mDisabledHardwareAcceleration = true;
-		// mPreviousHardwareAccelerationMode =
-		// mLibVLC.getHardwareAcceleration();
-		// mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-		// Log.d(TAG, "Secondary Display: Hardware acceleration disabled");
-		// }
 		Log.d(TAG,
 				"Hardware acceleration mode: "
 						+ Integer.toString(mLibVLC.getHardwareAcceleration()));
@@ -401,14 +373,8 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 		findViewById(R.id.subscribe).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
-
 				Intent intent = new Intent(VLCPlayerActivity.this,
 						PaymentActivity.class);
-
-				intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-
 				startActivityForResult(intent, REQUEST_CODE_PAYMENT);
 			}
 		});
@@ -420,9 +386,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 
 	private void runPaypalSubscribe() {
 		int time = 30 * 60000;
-		Intent intent = new Intent(this, PayPalService.class);
-		intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-		startService(intent);
 		payPalDelay = new Handler();
 		run = new Runnable() {
 
@@ -434,11 +397,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 
 		payPalDelay.postDelayed(run, time);
 
-	}
-
-	private PayPalPayment getThingToBuy(String paymentIntent) {
-		return new PayPalPayment(new BigDecimal("9.99"), "USD",
-				"Subscription for one year", paymentIntent);
 	}
 
 	@Override
@@ -498,7 +456,7 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 	@Override
 	protected void onDestroy() {
 		try {
-			stopService(new Intent(this, PayPalService.class));
+
 			unregisterReceiver(mReceiver);
 
 			EventHandler em = EventHandler.getInstance();
@@ -545,45 +503,65 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 
 	}
 
-	/**
-	 * TODO: torrent logic
-	 * */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE_PAYMENT) {
+			// TODO
 			if (resultCode == Activity.RESULT_OK) {
-				PaymentConfirmation confirm = data
-						.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-				if (confirm != null) {
-					try {
-						Log.i(TAG, confirm.toJSONObject().toString(4));
-						Log.i(TAG, confirm.getPayment().toJSONObject()
-								.toString(4));
-
-						setToTrue();
-
-						findViewById(R.id.paypal_layout).setVisibility(
-								View.GONE);
-
-						Toast.makeText(getApplicationContext(),
-								"Payment has been received", Toast.LENGTH_LONG)
-								.show();
-
-					} catch (JSONException e) {
-						Toast.makeText(getApplicationContext(),
-								"Some problem has been occured",
-								Toast.LENGTH_LONG).show();
-					}
-				}
-			} else if (resultCode == Activity.RESULT_CANCELED) {
-				Toast.makeText(getApplicationContext(), "Canceled",
-						Toast.LENGTH_LONG).show();
-			} else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-				Toast.makeText(getApplicationContext(),
-						"Some problem has been occured", Toast.LENGTH_LONG)
-						.show();
+				String token = data.getExtras().getString("TOKEN");
+				sendPayment(token);
 			}
 		}
+
+	}
+
+	private void sendPayment(String token) {
+		WebRequest requets = new WebRequest(this);
+		mDialog = ProgressDialog.show(this, "iMovies", "Processing payment");
+		requets.sendPayment(token, new Listener<String>() {
+
+			@Override
+			public void onResponse(String arg0) {
+				mDialog.hide();
+				try {
+					JSONObject response = new JSONObject(arg0);
+					if (response.has("success")) {
+						setToTrue();
+						findViewById(R.id.paypal_layout).setVisibility(
+								View.GONE);
+						showSuccess("Your payment has been accepted");
+					} else {
+						showSuccess("Sorry. Your creadit card was denied");
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}, new com.android.volley.Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				mDialog.hide();
+				Log.e("RESPONSE", "error" + error.toString());
+
+			}
+		});
+
+	}
+
+	private void showSuccess(String message) {
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(
+				VLCPlayerActivity.this);
+		builder1.setMessage(message);
+		builder1.setCancelable(true);
+		builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alert = builder1.create();
+		alert.show();
 	}
 
 	private void setToTrue() {
@@ -670,10 +648,6 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 			showOverlay();
 		}
 	}
-
-	/**
-	 * TODO: google cast logic
-	 * */
 
 	@Override
 	public void onCastStatePlaying() {

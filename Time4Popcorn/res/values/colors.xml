@@ -13,6 +13,10 @@
     <color name="p_video_watch_unpressed">#3da8d4</color>
     <color name="p_video_trailer_pressed">#b80000</color>
     <color name="p_video_trailer_unpressed">#ff0000</color>
+    <color name="spinnerItem">#AAAAAA</color>
+    <color name="editText">#AAAAAA</color>
+    <color name="buttonText">#EEEEEE</color>
+    <color name="headerText">#EEEEEE</color>
 
     <!-- classic -->
     <color name="classic_main_body">#323232</color>

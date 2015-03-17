@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +27,9 @@ import com.heliocratic.imovies.ui.base.PlayerBaseActivity;
 import com.heliocratic.imovies.ui.base.PopcornBaseActivity;
 import com.heliocratic.imovies.ui.locale.LocaleDialogFragment;
 import com.heliocratic.imovies.utils.LanguageUtil;
-import com.heliocratic.imovies.utils.Preference;
 import com.heliocratic.imovies.utils.StorageHelper;
 
-public class SettingsActivity extends PopcornBaseActivity implements
-		OnClickListener {
+public class SettingsActivity extends PopcornBaseActivity {
 
 	private final int REQUEST_DIRECTORY = 3457;
 
@@ -189,83 +186,6 @@ public class SettingsActivity extends PopcornBaseActivity implements
 
 		updateLocaleText();
 
-		initFlags();
-	}
-
-	private void initFlags() {
-		findViewById(R.id.set_italy).setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_usa).setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_germany)
-				.setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_france).setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_india).setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_china).setOnClickListener(SettingsActivity.this);
-		findViewById(R.id.set_spain).setOnClickListener(SettingsActivity.this);
-
-		if (Preference.getUSA()) {
-			findViewById(R.id.set_usa).setTag(R.id.set_usa, true);
-			findViewById(R.id.set_usa).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_usa).setTag(R.id.set_usa, false);
-			findViewById(R.id.set_usa).setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getItaly()) {
-			findViewById(R.id.set_italy).setTag(R.id.set_italy, true);
-			findViewById(R.id.set_italy).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_italy).setTag(R.id.set_italy, false);
-			findViewById(R.id.set_italy).setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getGermany()) {
-			findViewById(R.id.set_germany).setTag(R.id.set_germany, true);
-			findViewById(R.id.set_germany).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_germany).setTag(R.id.set_germany, false);
-			findViewById(R.id.set_germany)
-					.setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getIndia()) {
-			findViewById(R.id.set_india).setTag(R.id.set_india, true);
-			findViewById(R.id.set_india).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_india).setTag(R.id.set_india, false);
-			findViewById(R.id.set_india).setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getFrance()) {
-			findViewById(R.id.set_france).setTag(R.id.set_france, true);
-			findViewById(R.id.set_france).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_france).setTag(R.id.set_france, false);
-			findViewById(R.id.set_france).setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getChina()) {
-			findViewById(R.id.set_china).setTag(R.id.set_china, true);
-			findViewById(R.id.set_china).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_china).setTag(R.id.set_china, false);
-			findViewById(R.id.set_china).setBackgroundColor(Color.TRANSPARENT);
-		}
-		if (Preference.getSpain()) {
-			findViewById(R.id.set_spain).setTag(R.id.set_spain, true);
-			findViewById(R.id.set_spain).setBackground(
-					getResources().getDrawable(
-							R.drawable.drawer_switch_selected_selector));
-		} else {
-			findViewById(R.id.set_spain).setTag(R.id.set_spain, false);
-			findViewById(R.id.set_spain).setBackgroundColor(Color.TRANSPARENT);
-		}
 	}
 
 	@Override
@@ -606,119 +526,6 @@ public class SettingsActivity extends PopcornBaseActivity implements
 						}
 					});
 			return builder.create();
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.set_usa:
-			if ((Boolean) findViewById(R.id.set_usa).getTag(R.id.set_usa) == true) {
-				findViewById(R.id.set_usa)
-						.setBackgroundColor(Color.TRANSPARENT);
-				findViewById(R.id.set_usa).setTag(R.id.set_usa, false);
-				Preference.saveUSA(false);
-			} else {
-				findViewById(R.id.set_usa).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_usa).setTag(R.id.set_usa, true);
-				Preference.saveUSA(true);
-			}
-
-			break;
-		case R.id.set_italy:
-			if ((Boolean) findViewById(R.id.set_italy).getTag(R.id.set_italy) == true) {
-				findViewById(R.id.set_italy).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_italy).setTag(R.id.set_italy, false);
-				Preference.saveItaly(false);
-			} else {
-				findViewById(R.id.set_italy).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_italy).setTag(R.id.set_italy, true);
-				Preference.saveItaly(true);
-			}
-
-			break;
-
-		case R.id.set_germany:
-			if ((Boolean) findViewById(R.id.set_germany).getTag(
-					R.id.set_germany) == true) {
-				findViewById(R.id.set_germany).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_germany).setTag(R.id.set_germany, false);
-				Preference.saveGermany(false);
-			} else {
-				findViewById(R.id.set_germany).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_germany).setTag(R.id.set_germany, true);
-				Preference.saveGermany(true);
-			}
-
-			break;
-		case R.id.set_france:
-			if ((Boolean) findViewById(R.id.set_france).getTag(R.id.set_france) == true) {
-				findViewById(R.id.set_france).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_france).setTag(R.id.set_france, false);
-				Preference.saveFrance(false);
-			} else {
-				findViewById(R.id.set_france).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_france).setTag(R.id.set_france, true);
-				Preference.saveFrance(true);
-			}
-
-			break;
-		case R.id.set_spain:
-			if ((Boolean) findViewById(R.id.set_spain).getTag(R.id.set_spain) == true) {
-				findViewById(R.id.set_spain).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_spain).setTag(R.id.set_spain, false);
-				Preference.saveSpain(false);
-			} else {
-				findViewById(R.id.set_spain).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_spain).setTag(R.id.set_spain, true);
-				Preference.saveSpain(true);
-			}
-
-			break;
-		case R.id.set_china:
-			if ((Boolean) findViewById(R.id.set_china).getTag(R.id.set_china) == true) {
-				findViewById(R.id.set_china).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_china).setTag(R.id.set_china, false);
-				Preference.saveChina(false);
-			} else {
-				findViewById(R.id.set_china).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_china).setTag(R.id.set_china, true);
-				Preference.saveChina(true);
-			}
-
-			break;
-		case R.id.set_india:
-			if ((Boolean) findViewById(R.id.set_india).getTag(R.id.set_india) == true) {
-				findViewById(R.id.set_india).setBackgroundColor(
-						Color.TRANSPARENT);
-				findViewById(R.id.set_india).setTag(R.id.set_india, false);
-				Preference.saveIndia(false);
-			} else {
-				findViewById(R.id.set_india).setBackground(
-						getResources().getDrawable(
-								R.drawable.drawer_switch_selected_selector));
-				findViewById(R.id.set_india).setTag(R.id.set_india, true);
-				Preference.saveIndia(true);
-			}
-
-			break;
 		}
 	}
 

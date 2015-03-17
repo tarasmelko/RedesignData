@@ -61,7 +61,8 @@ public class MovieInfo extends VideoInfo {
 		super.populate(cursor);
 
 		// torrents
-		String json = cursor.getString(cursor.getColumnIndexOrThrow(Favorites._TORRENTS_INFO));
+		String json = cursor.getString(cursor
+				.getColumnIndexOrThrow(Favorites._TORRENTS_INFO));
 		if (!TextUtils.isEmpty(json)) {
 			JSONArray jsonTorrents = new JSONArray(json);
 			for (int j = 0; j < jsonTorrents.length(); j++) {

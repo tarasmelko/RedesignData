@@ -55,6 +55,11 @@
         </receiver>
 
         <activity
+            android:name="com.heliocratic.imovies.ui.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme" >
+        </activity>
+        <activity
             android:name="com.heliocratic.imovies.ui.SplashActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="landscape"
@@ -144,6 +149,10 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
+
+        <service
+            android:name="com.loveplusplus.update.DownloadService"
+            android:exported="true" />
     </application>
 
 </manifest>

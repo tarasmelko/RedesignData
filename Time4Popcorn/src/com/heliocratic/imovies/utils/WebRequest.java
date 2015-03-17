@@ -29,7 +29,7 @@ public class WebRequest {
 		StringPostRequest reqeust = new StringPostRequest(
 				Request.Method.POST,
 				"http://igoogleapps.com/signup_site_api.php?key=dt3dBjv1pVz2LTI6Arf1zTnw",
-				listener, error, mParams);
+				listener, error, mParams, null);
 		mQueue.add(reqeust);
 	}
 
@@ -39,7 +39,7 @@ public class WebRequest {
 		mParams.put("paid_imei", imei);
 		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
 				"http://igoogleapps.com/paid_status_api.php", listener, error,
-				mParams);
+				mParams, null);
 		mQueue.add(reqeust);
 	}
 
@@ -49,19 +49,23 @@ public class WebRequest {
 		mParams.put("imei", imei);
 		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
 				"http://igoogleapps.com/get_status_api.php", listener, error,
-				mParams);
+				mParams, null);
 		mQueue.add(reqeust);
 	}
 
-	public void getFilmsByFlag(String flag, Response.Listener<String> listener,
+	public void sendPayment(String token, Response.Listener<String> listener,
 			Response.ErrorListener error) {
+		Map<String, String> mHeaders = new HashMap<String, String>();
+
+		mHeaders.put("Authorization", "imovies_android_key");
+
 		Map<String, String> mParams = new HashMap<String, String>();
-		mParams.put("language", flag);
-		mParams.put("key", "dt3dBjv1pVz2LTI6Arf1zTnw");
+		mParams.put("stripeToken", token);
+		mParams.put("lang_id", "USA");
 
 		StringPostRequest reqeust = new StringPostRequest(Request.Method.POST,
-				"http://igoogleapps.com/movies_language_api.php", listener,
-				error, mParams);
+				"http://igoogleapps.com/stripe.php", listener, error, mParams,
+				mHeaders);
 		mQueue.add(reqeust);
 	}
 

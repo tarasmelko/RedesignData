@@ -3,7 +3,13 @@
 
     <string name="app_name" translatable="false">iMovies</string>
     <string name="vpn_sponsor_kebrum" translatable="false"><u>iMovies</u></string>
-
+    <string name="newUpdateAvailable">UPDATE AVAILABLE</string>
+    <string name="dialogPositiveButton">INSTALL</string>
+    <string name="dialogNegativeButton">CANCEL</string>
+    <string name="app_no_new_update">There are no new udpates</string>
+    <string name="download_progress">Progress:%1$d%%</string>
+    <string name="download_success">Download Success</string>
+    <string name="download_and_install_the_updates_">Download and install the updates...</string>
     <!-- Genres -->
     <string name="top_videos">Top Movies</string>
     <string name="popular">Popular</string>
@@ -211,5 +217,42 @@
     <string name="normal">Normal</string>
     <string name="large">Large</string>
     <string name="extra_large">Extra large</string>
+    <string name="addPayment">Enter your Credit Card data</string>
+    <string name="paymentMethods">Payment Methods</string>
+    <string name="endingIn">Card ending in </string>
+    <string name="progressMessage">Creating Token&#8230;</string>
+    <string name="validationErrors">Validation Errors</string>
+    <string name="cardNumber">Card Number</string>
+    <string name="save">Save</string>
+    <string name="cvc">CVC</string>
+    <string name="ok">OK</string>
+
+    <string-array name="year_array">
+        <item>Year</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+    </string-array>
+    <string-array name="month_array">
+        <item>Month</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
 
 </resources>
