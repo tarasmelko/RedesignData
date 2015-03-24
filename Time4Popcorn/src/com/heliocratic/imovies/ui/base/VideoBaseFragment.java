@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -366,6 +367,15 @@ public abstract class VideoBaseFragment extends LocaleFragment implements
 			updateTorrentInfo(torrentPos);
 
 			if (!TextUtils.isEmpty(torrentUrl)) {
+				if (torrentUrl.contains("http://yts.re")) {
+					Log.e("WAS", torrentUrl);
+					torrentUrl = torrentUrl.substring(13,
+							torrentUrl.length());
+					torrentUrl = "http://yts.to" + torrentUrl;
+					Log.e("BECOME", torrentUrl);
+
+				}
+
 				prepare.startAnimation(prepareAnim);
 				mActivity.setPopcornSplashVisible(true);
 
