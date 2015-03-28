@@ -573,6 +573,9 @@ public class VLCPlayerActivity extends PlayerBaseActivity implements
 			public void onResponse(String arg0) {
 				Log.e("RESPONSE", "Good" + arg0.toString());
 				Preference.saveUserPaypal(true);
+				findViewById(R.id.paypal_layout).setVisibility(
+						View.GONE);
+				
 			}
 		}, new com.android.volley.Response.ErrorListener() {
 			@Override

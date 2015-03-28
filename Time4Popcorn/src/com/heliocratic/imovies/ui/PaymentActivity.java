@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import com.heliocratic.imovies.R;
 import com.heliocratic.imovies.utils.ErrorDialogFragment;
 import com.heliocratic.imovies.utils.PaymentForm;
+import com.heliocratic.imovies.utils.Preference;
 import com.heliocratic.imovies.utils.ProgressDialogFragment;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -35,10 +36,10 @@ public class PaymentActivity extends FragmentActivity {
 	}
 
 	public void saveCreditCard(PaymentForm form) {
-
-		Card card = new Card(form.getCardNumber(), form.getExpMonth(),
-				form.getExpYear(), form.getCvc());
-
+	
+		
+		Card card = new Card.Builder(form.getCardNumber(), form.getExpMonth(), form.getExpYear(), form.getCvc()).name(Preference.getUserEmail()).build();
+		
 		boolean validation = card.validateCard();
 		if (validation) {
 			startProgress();

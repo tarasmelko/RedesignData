@@ -143,12 +143,8 @@ public class MainActivity extends PopcornLoadActivity implements
 		onMoviesClick();
 
 		setupUserPayment();
-	}
-
-	@Override
-	protected void onResume() {
+		
 		checkVersionUpdate();
-		super.onResume();
 	}
 
 	private void checkVersionUpdate() {
